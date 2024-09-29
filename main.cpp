@@ -4,22 +4,26 @@
 
 using namespace std;
 
-struct data {
-    string name;
-    float cost;
-    float rating;
+struct NII {
+    int department;
+    string fio;
+    int theme_number;
+    int work_duration;
+    int position;
+    int salary;
 };
 
 struct roster {
-    data info;
+    NII info;
     struct roster *next;
+    struct roster *prev;
 };
 
-data enter_container();
+NII enter_container();
 
-void add_first(roster **begin, data content);
+void add_first(roster **begin, NII content);
 
-void add_last(roster **begin, data content);
+void add_last(roster **begin, NII content);
 
 void add_many(roster **begin);
 
@@ -40,7 +44,6 @@ int main() {
     roster *begin = nullptr;
 
     while (true) {
-
         cout << "1) Занести в начало списка\n";
         cout << "2) Занести в конец списка\n";
         cout << "3) Организовать список\n";
@@ -90,8 +93,8 @@ int main() {
 }
 
 
-data enter_container() {
-    data container;
+NII enter_container() {
+    NII container;
     cout << "Введите наименование (не более 16 символов): ";
     cin >> setw(17) >> container.name;
     cout << "Введите цену: ";
@@ -102,7 +105,7 @@ data enter_container() {
 }
 
 
-void add_first(roster **begin, data content) {
+void add_first(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = *begin;
@@ -110,7 +113,7 @@ void add_first(roster **begin, data content) {
 }
 
 
-void add_last(roster **begin, data content) {
+void add_last(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = nullptr;
@@ -146,7 +149,7 @@ void print_roster(roster **begin) {
 }
 
 
-void clear_first(roster **begin) {
+void clear_first(roster **begin) {®
     if (!*begin) return;
     roster *temp = *begin;
     *begin = (*begin)->next;
@@ -154,15 +157,15 @@ void clear_first(roster **begin) {
 }
 
 void save_roster(roster **begin) {
-    ofstream file("data", ios_base::binary);
+    ofstream file("NII", ios_base::binary);
     if (!file) {
         std::cerr << "Не удалось открыть файл" << std::endl;
         return;
     }
 
     for (roster *current = *begin; current; current = current->next) {
-        data content = current->info;
-        file.write((char *) &content, sizeof(data));
+        NII content = current->info;
+        file.write((char *) &content, sizeof(NII));
     }
 
     cout << "Данные успешно сохранены\n";
@@ -170,7 +173,7 @@ void save_roster(roster **begin) {
 }
 
 void load_roster(roster **begin) {
-    ifstream file("data", ios_base::binary);
+    ifstream file("NII", ios_base::binary);
     if (!file) {
         std::cerr << "Не удалось открыть файл" << std::endl;
         return;
@@ -178,13 +181,10 @@ void load_roster(roster **begin) {
 
     file.seekg(0, std::ios::beg);
 
-    data content;
+    NII content;
     while (*begin) clear_first(begin);
-    while (file.read((char *) &content, sizeof(data))) add_last(begin, content);
+    while (file.read((char *) &content, sizeof(NII))) add_last(begin, content);
 
     cout << "Данные успешно загружены\n";
     file.close();
 }
-
-
-

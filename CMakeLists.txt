@@ -7,4 +7,8 @@ add_executable(Course main.cpp
         del.cpp
         files.h
         files.cpp
-        structures.h)
+        structures.h
+        adding.h
+        adding.cpp
+        removing.h
+        removing.cpp)

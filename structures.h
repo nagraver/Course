@@ -1,11 +1,11 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-using namespace std;
+#include <iostream>
 
 struct NII {
     int department;
-    string name;
+    std::string name;
     int theme_number;
     int work_duration;
     int position;

@@ -1,23 +1,15 @@
-#include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <string>
+
 #include "files.h"
 #include "structures.h"
+#include "adding.h"
+#include "removing.h"
 
 using namespace std;
 
-NII enter_container();
-
-void add_first(roster **begin, NII content);
-
-void add_last(roster **begin, NII content);
-
-void add_many(roster **begin);
-
 void print_roster(roster **begin);
-
-void clear_first(roster **begin);
 
 
 int main() {
@@ -72,91 +64,27 @@ int main() {
     }
 }
 
-NII enter_container() {
-    NII container;
-    cout << "Department: ";
-    cin >> container.department;
-
-    cout << "Full Name: ";
-    cin.ignore();
-    getline(cin, container.name);
-
-    cout << "Position: ";
-    cin >> container.position;
-
-    cout << "Salary: ";
-    cin >> container.salary;
-
-    cout << "Theme number: ";
-    cin >> container.theme_number;
-
-    cout << "Work experience: ";
-    cin >> container.work_duration;
-
-    return container;
-}
-
-void add_first(roster **begin, NII content) {
-    roster *temp = new roster();
-    temp->info = content;
-    temp->next = *begin;
-    *begin = temp;
-}
-
-void add_last(roster **begin, NII content) {
-    roster *temp = new roster();
-    temp->info = content;
-    temp->next = nullptr;
-
-    if (!*begin) {
-        *begin = temp;
-    } else {
-        roster *current = *begin;
-        while (current->next) current = current->next;
-        current->next = temp;
-    }
-}
-
-void add_many(roster **begin) {
-    char value;
-    while (true) {
-        add_last(begin, enter_container());
-        cout << "Continue organizing the list: 1" << endl;
-        cout << "Finish organizing the list: Any other key" << endl;
-        cin >> value;
-        if (value != '1') return;
-    }
-}
-
 void print_roster(roster **begin) {
     cout << left << setw(12) << "Department" << " | "
-            << setw(15) << "Full Name" << " | "
-            << setw(10) << "Position" << " | "
-            << setw(10) << "Salary" << " | "
-            << setw(15) << "Theme Number" << " | "
-            << setw(18) << "Work Experience" << endl;
+         << setw(15) << "Full Name" << " | "
+         << setw(10) << "Position" << " | "
+         << setw(10) << "Salary" << " | "
+         << setw(15) << "Theme Number" << " | "
+         << setw(18) << "Work Experience" << endl;
 
     cout << string(12, '-') << "-+-"
-            << string(15, '-') << "-+-"
-            << string(10, '-') << "-+-"
-            << string(10, '-') << "-+-"
-            << string(15, '-') << "-+-"
-            << string(18, '-') << endl;
+         << string(15, '-') << "-+-"
+         << string(10, '-') << "-+-"
+         << string(10, '-') << "-+-"
+         << string(15, '-') << "-+-"
+         << string(18, '-') << endl;
 
     for (roster *current = *begin; current; current = current->next) {
         cout << setw(12) << current->info.department << " | "
-                << setw(15) << current->info.name << " | "
-                << setw(10) << current->info.position << " | "
-                << setw(10) << current->info.salary << " | "
-                << setw(15) << current->info.theme_number << " | "
-                << setw(18) << current->info.work_duration << endl;
+             << setw(15) << current->info.name << " | "
+             << setw(10) << current->info.position << " | "
+             << setw(10) << current->info.salary << " | "
+             << setw(15) << current->info.theme_number << " | "
+             << setw(18) << current->info.work_duration << endl;
     }
-}
-
-
-void clear_first(roster **begin) {
-    if (!*begin) return;
-    roster *temp = *begin;
-    *begin = (*begin)->next;
-    delete temp;
 }

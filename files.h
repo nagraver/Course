@@ -3,7 +3,9 @@
 
 #include "structures.h"
 
-void save_roster(roster **begin);
+
 void load_roster(roster **begin);
+
+void save_roster(roster **begin);
 
 #endif //FILES_H

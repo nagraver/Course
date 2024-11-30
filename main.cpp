@@ -1,25 +1,11 @@
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "files.h"
+#include "structures.h"
 
 using namespace std;
-
-struct NII {
-    int department;
-    string name;
-    int theme_number;
-    int work_duration;
-    int position;
-    int salary;
-};
-
-struct roster {
-    NII info;
-    struct roster *next;
-    struct roster *prev;
-};
 
 NII enter_container();
 
@@ -33,9 +19,6 @@ void print_roster(roster **begin);
 
 void clear_first(roster **begin);
 
-void save_roster(roster **begin);
-
-void load_roster(roster **begin);
 
 int main() {
     char value;
@@ -147,27 +130,26 @@ void add_many(roster **begin) {
 
 void print_roster(roster **begin) {
     cout << left << setw(12) << "Department" << " | "
-         << setw(15) << "Full Name" << " | "
-         << setw(10) << "Position" << " | "
-         << setw(10) << "Salary" << " | "
-         << setw(15) << "Theme Number" << " | "
-         << setw(18) << "Work Experience" << endl;
+            << setw(15) << "Full Name" << " | "
+            << setw(10) << "Position" << " | "
+            << setw(10) << "Salary" << " | "
+            << setw(15) << "Theme Number" << " | "
+            << setw(18) << "Work Experience" << endl;
 
     cout << string(12, '-') << "-+-"
-         << string(15, '-') << "-+-"
-         << string(10, '-') << "-+-"
-         << string(10, '-') << "-+-"
-         << string(15, '-') << "-+-"
-         << string(18, '-') << endl;
+            << string(15, '-') << "-+-"
+            << string(10, '-') << "-+-"
+            << string(10, '-') << "-+-"
+            << string(15, '-') << "-+-"
+            << string(18, '-') << endl;
 
-    // Print the data rows
     for (roster *current = *begin; current; current = current->next) {
         cout << setw(12) << current->info.department << " | "
-             << setw(15) << current->info.name << " | "
-             << setw(10) << current->info.position << " | "
-             << setw(10) << current->info.salary << " | "
-             << setw(15) << current->info.theme_number << " | "
-             << setw(18) << current->info.work_duration << endl;
+                << setw(15) << current->info.name << " | "
+                << setw(10) << current->info.position << " | "
+                << setw(10) << current->info.salary << " | "
+                << setw(15) << current->info.theme_number << " | "
+                << setw(18) << current->info.work_duration << endl;
     }
 }
 
@@ -177,35 +159,4 @@ void clear_first(roster **begin) {
     roster *temp = *begin;
     *begin = (*begin)->next;
     delete temp;
-}
-
-void save_roster(roster **begin) {
-    ofstream file("NII", ios_base::binary);
-    if (file.is_open()) {
-        for (roster *current = *begin; current; current = current->next) {
-            NII content = current->info;
-            file.write((char *) &content, sizeof(NII));
-        }
-        cout << "Data successfully saved\n";
-        file.close();
-    } else {
-        std::cerr << "Failed to open file" << std::endl;
-        return;
-    }
-}
-
-void load_roster(roster **begin) {
-    ifstream file("NII", ios_base::binary);
-    if (!file) {
-        std::cerr << "Failed to open file" << std::endl;
-        return;
-    }
-
-    NII content;
-    file.seekg(0, ios::beg);
-    while (*begin) clear_first(begin);
-    while (file.read((char *) &content, sizeof(NII))) add_last(begin, content);
-
-    cout << "Data successfully loaded\n";
-    file.close();
 }

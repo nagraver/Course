@@ -4,4 +4,7 @@ project(Course)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Course main.cpp
-        del.cpp)
+        del.cpp
+        files.h
+        files.cpp
+        structures.h)

@@ -3,12 +3,14 @@
 
 #include "structures.h"
 
+NII enter_container();
+
 void add_first(roster **begin, NII content);
 
 void add_last(roster **begin, NII content);
 
 void add_many(roster **begin);
 
-NII enter_container();
+void clear_first(roster **begin);
 
-#endif //COURSE_ADDING_H
+#endif  // COURSE_ADDING_H

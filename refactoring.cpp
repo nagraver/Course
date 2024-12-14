@@ -58,3 +58,10 @@ void add_many(roster **begin) {
         if (value != '1') return;
     }
 }
+
+void clear_first(roster **begin) {
+    if (!*begin) return;
+    roster *temp = *begin;
+    *begin = (*begin)->next;
+    delete temp;
+}

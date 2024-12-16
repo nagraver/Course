@@ -1,6 +1,6 @@
 #include "iostream"
-#include "structures.h"
 #include "service.h"
+#include "structures.h"
 
 using namespace std;
 
@@ -34,23 +34,22 @@ void add_first(roster **begin, NII content) {
     temp->info = content;
     temp->info.id = 0;
     temp->next = *begin;
-    for (roster *current = *begin; current; current = current->next) current->info.id++;
     *begin = temp;
+    fixId(begin);
 }
 
 void add_last(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = nullptr;
-    temp->info.id = 0;
     if (!*begin) {
         *begin = temp;
     } else {
         roster *current = *begin;
         for (; current->next; current = current->next);
         current->next = temp;
-        current->next->info.id = current->info.id + 1;
     }
+    fixId(begin);
 }
 
 void add_many(roster **begin) {
@@ -65,9 +64,25 @@ void add_many(roster **begin) {
 }
 
 void clear_first(roster **begin) {
-    if (!*begin) return;
+    if (*begin == nullptr) {
+        cout << "The list is empty.\n";
+        return;
+    }
     roster *temp = *begin;
     for (roster *current = *begin; current; current = current->next) current->info.id--;
     *begin = (*begin)->next;
     delete temp;
+    fixId(begin);
+}
+
+void edit(roster **begin) {
+    if (!*begin) return;
+    int _id;
+    cout << "\nEnter id\nInput: ";
+    cin >> _id;
+    for (roster *current = *begin; current; current = current->next) {
+        if (current->info.id == _id) current->info = enter_container();
+        break;
+    };
+    fixId(begin);
 }

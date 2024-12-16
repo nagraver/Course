@@ -9,7 +9,7 @@
 using namespace std;
 
 int main() {
-    char value;
+    char choice;
     roster *begin = nullptr;
 
     while (true) {
@@ -18,15 +18,18 @@ int main() {
         cout << "2) Add to the end of the list\n";
         cout << "3) Organize the list\n";
         cout << "4) Display data\n";
+        cout << "5) Sort list\n";
+        cout << "6) Search\n";
+        cout << "e) Edit\n";
         cout << "d) Delete first element\n";
         cout << "s) Save data\n";
         cout << "l) Load data\n";
         cout << "q) Exit\n";
 
         cout << "Input: ";
-        cin >> value;
+        cin >> choice;
 
-        switch (value) {
+        switch (choice) {
             case '1':
                 add_first(&begin, enter_container());
                 cout << "Element added to the beginning\n";
@@ -39,10 +42,17 @@ int main() {
                 add_many(&begin);
                 break;
             case '4':
-                print_roster(&begin);
+                scrolling(&begin);
                 break;
             case '5':
                 insertionSort(&begin);
+                break;
+            case '6':
+                searchByField(&begin);
+                break;
+            case 'e':
+            case 'E':
+                edit(&begin);
                 break;
             case 'd':
             case 'D':

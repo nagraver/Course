@@ -1,20 +1,12 @@
-#include <iomanip>
 #include <iostream>
+#include <string>
 
+#include "service.h"
 #include "structures.h"
 
 using namespace ::std;
 
-string center(const string &text, int width) {
-    if (width <= text.length()) return text;
-
-    int left_padding = (width - text.length()) / 2;
-    int right_padding = width - text.length() - left_padding;
-
-    return string(left_padding, ' ') + text + string(right_padding, ' ');
-}
-
-void print_roster(roster **begin) {
+void scrolling(roster **begin) {
     const int ITEMS_PER_PAGE = 5;
     int page = 0;
     int total_items = 0;
@@ -29,23 +21,10 @@ void print_roster(roster **begin) {
     while (true) {
         int start_index = page * ITEMS_PER_PAGE;
         int end_index = min(start_index + ITEMS_PER_PAGE, total_items);
-
-        cout << center("id", 4) << " | " << setw(12) << center("Department", 12) << " | " << setw(15)
-             << center("Full Name", 15) << " | " << setw(10) << center("Position", 10) << " | " << setw(10)
-             << center("Salary", 10) << " | " << setw(15) << center("Theme Number", 15) << " | " << setw(18)
-             << center("Work Experience", 18) << endl;
-
-        cout << string(4, '-') << "-+-" << string(12, '-') << "-+-" << string(15, '-') << "-+-" << string(10, '-')
-             << "-+-" << string(10, '-') << "-+-" << string(15, '-') << "-+-" << string(18, '-') << endl;
-
+        printRosterHeader();
         int index = 0;
         for (roster *current = *begin; current; current = current->next, index++) {
-            if (index >= start_index && index < end_index) {
-                cout << left << setw(4) << current->info.id << " | " << setw(12) << current->info.department << " | "
-                     << setw(15) << current->info.name << " | " << setw(10) << current->info.position << " | "
-                     << setw(10) << current->info.salary << " | " << setw(15) << current->info.theme_number << " | "
-                     << setw(18) << current->info.work_duration << endl;
-            }
+            if (index >= start_index && index < end_index) { printRoster(current); }
         }
 
         char command;
@@ -62,5 +41,42 @@ void print_roster(roster **begin) {
         } else {
             cout << "Invalid command. Try again.\n";
         }
+    }
+}
+
+void searchByField(roster **begin) {
+    char choice =
+        getChoice("ID - 1\nDepartment - 2\nName - 3\nTheme - 4\nDuration - 5\nPosition - 6\nSalary - 7\nCancel - q\n",
+                  "1234567q");
+
+    if (choice == 'q' || choice == 'Q') { return; }
+
+    if (choice == '1' || choice == '2' || choice == '4' || choice == '5' || choice == '6' || choice == '7') {
+        int value;
+        cout << "\nEnter value\nInput: ";
+        cin >> value;
+
+        printRosterHeader();
+        for (roster *current = *begin; current; current = current->next) {
+            if ((choice == '1' && current->info.id == value) || (choice == '2' && current->info.department == value) ||
+                (choice == '4' && current->info.theme_number == value) ||
+                (choice == '5' && current->info.work_duration == value) ||
+                (choice == '6' && current->info.position == value) ||
+                (choice == '7' && current->info.salary == value)) {
+                printRoster(current);
+            }
+        }
+    } else if (choice == '3') {
+        string _value;
+        cout << "\nEnter value\nInput: ";
+        cin.ignore();
+        getline(cin, _value);
+
+        printRosterHeader();
+        for (roster *current = *begin; current; current = current->next) {
+            if (choice == '3' && current->info.name == _value) printRoster(current);
+        }
+    } else {
+        cout << "Error\n";
     }
 }

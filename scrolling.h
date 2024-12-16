@@ -3,6 +3,8 @@
 
 #include "structures.h"
 
-void print_roster(roster **begin);
+void scrolling(roster **begin);
+
+void searchByField(roster **begin);
 
 #endif

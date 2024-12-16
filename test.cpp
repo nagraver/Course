@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <string>
 
 struct MyStruct {
@@ -8,16 +8,14 @@ struct MyStruct {
     int age;
 
     // Метод для записи структуры в файл
-    void writeToFile(std::ofstream &ofs) const {
-        ofs << name << '\n' << address << '\n' << age << '\n';
-    }
+    void writeToFile(std::ofstream &ofs) const { ofs << name << '\n' << address << '\n' << age << '\n'; }
 
     // Метод для чтения структуры из файла
     void readFromFile(std::ifstream &ifs) {
         std::getline(ifs, name);
         std::getline(ifs, address);
         ifs >> age;
-        ifs.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Пропуск оставшихся данных в строке
+        ifs.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Пропуск оставшихся данных в строке
     }
 };
 int main() {
@@ -31,5 +29,8 @@ int main() {
 
     person.writeToFile(ofs);
     ofs.close();
+
+    int i = 0;
+    for (; i < 5; i++) { std::cout << i; }
     return 0;
 }

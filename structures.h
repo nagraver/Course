@@ -4,6 +4,7 @@
 #include <iostream>
 
 struct NII {
+    int id;
     int department;
     std::string name;
     int theme_number;

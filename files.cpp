@@ -57,6 +57,7 @@ void save_roster_txt(roster **begin) {
     }
 
     for (roster *current = *begin; current; current = current->next) {
+        file << current->info.id << "|";
         file << current->info.department << "|";
         file << current->info.name << "|";
         file << current->info.theme_number << "|";
@@ -118,6 +119,11 @@ void load_roster_txt(roster **begin) {
         size_t pos = 0;
         string temp;
 
+        pos = line.find('|');
+        temp = line.substr(0, pos);
+        content.id = stoi(temp);
+        line.erase(0, pos + 1);
+        
         pos = line.find('|');
         temp = line.substr(0, pos);
         content.department = stoi(temp);

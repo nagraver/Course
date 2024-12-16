@@ -5,6 +5,7 @@ using namespace std;
 
 NII enter_container() {
     NII container;
+
     cout << "Department: ";
     cin >> container.department;
 
@@ -30,7 +31,9 @@ NII enter_container() {
 void add_first(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
+    temp->info.id = 0;
     temp->next = *begin;
+    for (roster *current = *begin; current; current = current->next) current->info.id++;
     *begin = temp;
 }
 
@@ -38,13 +41,14 @@ void add_last(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = nullptr;
-
+    temp->info.id = 0;
     if (!*begin) {
         *begin = temp;
     } else {
         roster *current = *begin;
-        while (current->next) current = current->next;
+        for (; current->next; current = current->next);
         current->next = temp;
+        current->next->info.id = current->info.id + 1;
     }
 }
 
@@ -62,6 +66,7 @@ void add_many(roster **begin) {
 void clear_first(roster **begin) {
     if (!*begin) return;
     roster *temp = *begin;
+    for (roster *current = *begin; current; current = current->next) current->info.id--;
     *begin = (*begin)->next;
     delete temp;
 }

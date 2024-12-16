@@ -17,14 +17,13 @@ int main() {
         cout << "2) Add to the end of the list\n";
         cout << "3) Organize the list\n";
         cout << "4) Display data\n";
-        cout << "d) Delete the first element\n";
+        cout << "d) Delete first element\n";
         cout << "s) Save data\n";
         cout << "l) Load data\n";
         cout << "q) Exit\n";
 
         cout << "Input: ";
         cin >> value;
-        cout << endl;
 
         switch (value) {
             case '1':

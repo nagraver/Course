@@ -3,6 +3,7 @@
 #include "files.h"
 #include "refactoring.h"
 #include "scrolling.h"
+#include "sort.h"
 #include "structures.h"
 
 using namespace std;
@@ -39,6 +40,9 @@ int main() {
                 break;
             case '4':
                 print_roster(&begin);
+                break;
+            case '5':
+                insertionSort(&begin);
                 break;
             case 'd':
             case 'D':

@@ -5,6 +5,7 @@
 using namespace std;
 
 NII enter_container() {
+    system("clear");
     NII container;
 
     cout << "Department: ";
@@ -30,6 +31,7 @@ NII enter_container() {
 }
 
 void add_first(roster **begin, NII content) {
+    system("clear");
     roster *temp = new roster();
     temp->info = content;
     temp->info.id = 0;
@@ -39,6 +41,7 @@ void add_first(roster **begin, NII content) {
 }
 
 void add_last(roster **begin, NII content) {
+    system("clear");
     roster *temp = new roster();
     temp->info = content;
     temp->next = nullptr;
@@ -53,36 +56,57 @@ void add_last(roster **begin, NII content) {
 }
 
 void add_many(roster **begin) {
+    system("clear");
     char value;
     while (true) {
         add_last(begin, enter_container());
-        cout << "Continue organizing the list: 1" << endl;
-        cout << "Finish organizing the list: Any other key" << endl;
-        cin >> value;
+        cout << "Continue organizing the list: 1\n";
+        cout << "Finish organizing the list: Any other key\n";
+        value = getch();
         if (value != '1') return;
     }
 }
 
 void clear_first(roster **begin) {
+    system("clear");
     if (*begin == nullptr) {
         cout << "The list is empty.\n";
         return;
     }
+
     roster *temp = *begin;
     for (roster *current = *begin; current; current = current->next) current->info.id--;
     *begin = (*begin)->next;
     delete temp;
     fixId(begin);
+    cout << "First element deleted\n";
 }
 
+// void clear_roster(roster **begin) {
+//     system("clear");
+//     if (*begin == nullptr) {
+//         cout << "The list is empty.\n";
+//         return;
+//     }
+//     for (roster *current = *begin; current; current = current->next) clear_first(begin);
+// }
+
 void edit(roster **begin) {
-    if (!*begin) return;
-    int _id;
-    cout << "\nEnter id\nInput: ";
+    system("clear");
+    if (*begin == nullptr) {
+        cout << "The list is empty.\n";
+        return;
+    }
+    char _id;
+    cout << "Enter id\n";
     cin >> _id;
     for (roster *current = *begin; current; current = current->next) {
-        if (current->info.id == _id) current->info = enter_container();
-        break;
-    };
-    fixId(begin);
+        if (static_cast<char>(current->info.id) == _id) {
+            current->info = enter_container();
+            fixId(begin);
+            return;
+            ;
+        }
+    }
+    cout << "ID not found\n";
 }

@@ -7,6 +7,7 @@
 using namespace ::std;
 
 void scrolling(roster **begin) {
+    system("clear");
     const int ITEMS_PER_PAGE = 5;
     int page = 0;
     int total_items = 0;
@@ -19,6 +20,7 @@ void scrolling(roster **begin) {
     }
 
     while (true) {
+        system("clear");
         int start_index = page * ITEMS_PER_PAGE;
         int end_index = min(start_index + ITEMS_PER_PAGE, total_items);
         printRosterHeader();
@@ -27,10 +29,10 @@ void scrolling(roster **begin) {
             if (index >= start_index && index < end_index) { printRoster(current); }
         }
 
+        cout << "Page " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << " (n/p/q): \n";
+
         char command;
-        cout << "\nPage " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << "\n";
-        cout << "Enter command (n/p/q): ";
-        cin >> command;
+        command = getch();
 
         if (command == 'N' || command == 'n') {
             if (end_index < total_items) page++;
@@ -39,21 +41,23 @@ void scrolling(roster **begin) {
         } else if (command == 'Q' || command == 'q') {
             break;
         } else {
-            cout << "Invalid command. Try again.\n";
+            cout << "Invalid command\n";
         }
     }
 }
 
 void searchByField(roster **begin) {
+    system("clear");
     char choice =
         getChoice("ID - 1\nDepartment - 2\nName - 3\nTheme - 4\nDuration - 5\nPosition - 6\nSalary - 7\nCancel - q\n",
                   "1234567q");
 
-    if (choice == 'q' || choice == 'Q') { return; }
+    if (choice == 'q' || choice == 'Q') return;
 
     if (choice == '1' || choice == '2' || choice == '4' || choice == '5' || choice == '6' || choice == '7') {
         int value;
-        cout << "\nEnter value\nInput: ";
+
+        cout << "Enter value\nInput: ";
         cin >> value;
 
         printRosterHeader();
@@ -68,7 +72,8 @@ void searchByField(roster **begin) {
         }
     } else if (choice == '3') {
         string _value;
-        cout << "\nEnter value\nInput: ";
+
+        cout << "Enter value\nInput: ";
         cin.ignore();
         getline(cin, _value);
 

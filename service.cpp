@@ -1,3 +1,6 @@
+#include <termios.h>
+#include <unistd.h>
+
 #include <iomanip>
 #include <iostream>
 
@@ -5,12 +8,27 @@
 
 using namespace ::std;
 
+char getch() {
+    char buf = 0;
+    struct termios old = {0};
+    if (tcgetattr(0, &old) < 0) { perror("tcsetattr()"); }
+    old.c_lflag &= ~ICANON;  // Отключить канонический режим
+    old.c_lflag &= ~ECHO;    // Отключить эхо
+    old.c_cc[VMIN] = 1;
+    old.c_cc[VTIME] = 0;
+    if (tcsetattr(0, TCSANOW, &old) < 0) { perror("tcsetattr ICANON"); }
+    if (read(0, &buf, 1) < 0) { perror("read()"); }
+    old.c_lflag |= ICANON;  // Включить канонический режим обратно
+    old.c_lflag |= ECHO;    // Включить эхо обратно
+    if (tcsetattr(0, TCSADRAIN, &old) < 0) { perror("tcsetattr ~ICANON"); }
+    return buf;
+}
+
 char getChoice(const string &prompt, const char *validChoices) {
     char choice;
     while (true) {
-        cout << endl;
-        cout << prompt << "Input: ";
-        cin >> choice;
+        cout << prompt;
+        choice = getch();
 
         bool isValid = false;
         for (int i = 0; i < sizeof(validChoices); i++) {
@@ -21,6 +39,7 @@ char getChoice(const string &prompt, const char *validChoices) {
         }
 
         if (isValid) break;
+
         cout << "Wrong choice, please try again.\n";
     }
 

@@ -5,6 +5,8 @@
 
 using namespace ::std;
 
+char getch();
+
 char getChoice(const string &prompt, const char *validChoices);
 
 void fixId(roster **begin);

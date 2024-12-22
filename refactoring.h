@@ -13,6 +13,8 @@ void add_many(roster **begin);
 
 void clear_first(roster **begin);
 
+void clear_roster(roster **begin);
+
 void edit(roster **begin);
 
 #endif  // COURSE_ADDING_H

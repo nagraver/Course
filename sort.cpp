@@ -5,6 +5,7 @@ using namespace ::std;
 
 void insertionSortIncrease(roster **begin) {
     if (begin == nullptr) {
+
         cout << "The list is empty.\n";
         return;
     }
@@ -37,6 +38,7 @@ void insertionSortIncrease(roster **begin) {
 
 void insertionSortDecrease(roster **begin) {
     if (begin == nullptr) {
+
         cout << "The list is empty.\n";
         return;
     }

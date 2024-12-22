@@ -1,21 +1,21 @@
+#include <cstdlib>
 #include <fstream>
-#include <ios>
 #include <iostream>
 #include <ostream>
 #include <string>
 
 #include "refactoring.h"
-#include "structures.h"
 #include "service.h"
+#include "structures.h"
 
 using namespace std;
 
-
 void save_roster_bin(roster **begin) {
+    system("clear");
     ofstream file;
     file.open("NII", ios_base::binary);
     if (!file) {
-        cerr << "Failed to open file" << endl;
+        cerr << "Failed to open file\n";
         return;
     }
 
@@ -29,10 +29,11 @@ void save_roster_bin(roster **begin) {
 }
 
 void save_roster_txt(roster **begin) {
+    system("clear");
     ofstream file;
     file.open("NII.txt");
     if (!file) {
-        cerr << "Failed to open file" << endl;
+        cerr << "Failed to open file\n";
         return;
     }
 
@@ -52,6 +53,7 @@ void save_roster_txt(roster **begin) {
 }
 
 void save_roster(roster **begin) {
+    system("clear");
     char choice = getChoice("Save to bin file - 1\nSave to txt file - 2\nCancel - q\n", "12q");
     if (choice == '1') save_roster_bin(begin);
     else if (choice == '2') save_roster_txt(begin);
@@ -59,11 +61,13 @@ void save_roster(roster **begin) {
 }
 
 void load_roster_bin(roster **begin) {
+    system("clear");
+    cout << "Loading from bin file\n";
     char choice;
     ifstream file;
     file.open("NII", ios_base::binary);
     if (!file) {
-        cerr << "Failed to open file" << endl;
+        cerr << "Failed to open file\n";
         return;
     }
 
@@ -75,16 +79,19 @@ void load_roster_bin(roster **begin) {
     NII content;
     while (file.read(reinterpret_cast<char *>(&content), sizeof(content))) add_last(begin, content);
 
-    cout << "Data successfully loaded\n";
+    if (choice == '1') cout << "Data successfully overrided\n";
+    else cout << "Data successfully added\n";
     file.close();
 }
 
 void load_roster_txt(roster **begin) {
+    system("clear");
+    cout << "Loading from txt file\n";
     char choice;
     ifstream file;
     file.open("NII.txt");
     if (!file) {
-        cerr << "Failed to open file" << endl;
+        cerr << "Failed to open file\n";
         return;
     }
 
@@ -103,7 +110,7 @@ void load_roster_txt(roster **begin) {
         temp = line.substr(0, pos);
         content.id = stoi(temp);
         line.erase(0, pos + 1);
-        
+
         pos = line.find('|');
         temp = line.substr(0, pos);
         content.department = stoi(temp);
@@ -135,11 +142,13 @@ void load_roster_txt(roster **begin) {
         add_last(begin, content);
     }
 
-    cout << "Data successfully loaded\n";
+    if (choice == '1') cout << "Data successfully overrided\n";
+    else cout << "Data successfully added\n";
     file.close();
 }
 
 void load_roster(roster **begin) {
+    system("clear");
     char choice = getChoice("Load from bin file - 1\nLoad from txt file - 2\nCancel - q\n", "12q");
     if (choice == '1') load_roster_bin(begin);
     else if (choice == '2') load_roster_txt(begin);

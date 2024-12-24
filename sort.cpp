@@ -5,7 +5,6 @@ using namespace ::std;
 
 void insertionSortIncrease(roster **begin) {
     if (begin == nullptr) {
-
         cout << "The list is empty.\n";
         return;
     }
@@ -15,7 +14,6 @@ void insertionSortIncrease(roster **begin) {
     while (current) {
         roster *next = current->next;
 
-        // Вставляем текущий элемент в отсортированный список
         if (!sorted || sorted->info.salary >= current->info.salary) {
             current->next = sorted;
             if (sorted) sorted->prev = current;
@@ -38,7 +36,6 @@ void insertionSortIncrease(roster **begin) {
 
 void insertionSortDecrease(roster **begin) {
     if (begin == nullptr) {
-
         cout << "The list is empty.\n";
         return;
     }
@@ -48,7 +45,6 @@ void insertionSortDecrease(roster **begin) {
     while (current) {
         roster *next = current->next;
 
-        // Вставляем текущий элемент в отсортированный список
         if (!sorted || sorted->info.salary <= current->info.salary) {
             current->next = sorted;
             if (sorted) sorted->prev = current;

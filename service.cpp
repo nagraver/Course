@@ -37,9 +37,7 @@ char getChoice(const string &prompt, const char *validChoices) {
                 break;
             }
         }
-
         if (isValid) break;
-
         cout << "Wrong choice, please try again.\n";
     }
 
@@ -47,9 +45,8 @@ char getChoice(const string &prompt, const char *validChoices) {
 }
 
 void fixId(roster **begin) {
-    roster *current = *begin;
     int _id = 0;
-    for (; current; current = current->next) {
+    for (roster *current = *begin; current; current = current->next) {
         current->info.id = _id;
         _id++;
     }
@@ -74,9 +71,8 @@ void printRosterHeader() {
          << string(10, '-') << "-+-" << string(15, '-') << "-+-" << string(18, '-') << endl;
 }
 
-void printRoster(roster *current) {
-    cout << left << setw(4) << current->info.id << " | " << setw(12) << current->info.department << " | " << setw(15)
-         << current->info.name << " | " << setw(10) << current->info.position << " | " << setw(10)
-         << current->info.salary << " | " << setw(15) << current->info.theme_number << " | " << setw(18)
-         << current->info.work_duration << endl;
+void printRoster(NII info) {
+    cout << left << setw(4) << info.id << " | " << setw(12) << info.department << " | " << setw(15) << info.name
+         << " | " << setw(10) << info.position << " | " << setw(10) << info.salary << " | " << setw(15)
+         << info.theme_number << " | " << setw(18) << info.work_duration << endl;
 }

@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -7,7 +8,6 @@
 using namespace ::std;
 
 void scrolling(roster **begin) {
-    system("clear");
     const int ITEMS_PER_PAGE = 5;
     int page = 0;
     int total_items = 0;
@@ -26,7 +26,7 @@ void scrolling(roster **begin) {
         printRosterHeader();
         int index = 0;
         for (roster *current = *begin; current; current = current->next, index++) {
-            if (index >= start_index && index < end_index) { printRoster(current); }
+            if (index >= start_index && index < end_index) { printRoster(current->info); }
         }
 
         cout << "Page " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << " (n/p/q): \n";
@@ -47,7 +47,6 @@ void scrolling(roster **begin) {
 }
 
 void searchByField(roster **begin) {
-    system("clear");
     char choice =
         getChoice("ID - 1\nDepartment - 2\nName - 3\nTheme - 4\nDuration - 5\nPosition - 6\nSalary - 7\nCancel - q\n",
                   "1234567q");
@@ -56,10 +55,9 @@ void searchByField(roster **begin) {
 
     if (choice == '1' || choice == '2' || choice == '4' || choice == '5' || choice == '6' || choice == '7') {
         int value;
-
         cout << "Enter value\nInput: ";
         cin >> value;
-
+        system("clear");
         printRosterHeader();
         for (roster *current = *begin; current; current = current->next) {
             if ((choice == '1' && current->info.id == value) || (choice == '2' && current->info.department == value) ||
@@ -67,19 +65,19 @@ void searchByField(roster **begin) {
                 (choice == '5' && current->info.work_duration == value) ||
                 (choice == '6' && current->info.position == value) ||
                 (choice == '7' && current->info.salary == value)) {
-                printRoster(current);
+                printRoster(current->info);
             }
         }
     } else if (choice == '3') {
         string _value;
-
         cout << "Enter value\nInput: ";
         cin.ignore();
         getline(cin, _value);
+        system("clear");
 
         printRosterHeader();
         for (roster *current = *begin; current; current = current->next) {
-            if (choice == '3' && current->info.name == _value) printRoster(current);
+            if (choice == '3' && current->info.name == _value) printRoster(current->info);
         }
     } else {
         cout << "Error\n";

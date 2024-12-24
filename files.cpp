@@ -11,7 +11,6 @@
 using namespace std;
 
 void save_roster_bin(roster **begin) {
-    system("clear");
     ofstream file;
     file.open("NII", ios_base::binary);
     if (!file) {
@@ -29,7 +28,6 @@ void save_roster_bin(roster **begin) {
 }
 
 void save_roster_txt(roster **begin) {
-    system("clear");
     ofstream file;
     file.open("NII.txt");
     if (!file) {
@@ -53,7 +51,6 @@ void save_roster_txt(roster **begin) {
 }
 
 void save_roster(roster **begin) {
-    system("clear");
     char choice = getChoice("Save to bin file - 1\nSave to txt file - 2\nCancel - q\n", "12q");
     if (choice == '1') save_roster_bin(begin);
     else if (choice == '2') save_roster_txt(begin);
@@ -61,7 +58,6 @@ void save_roster(roster **begin) {
 }
 
 void load_roster_bin(roster **begin) {
-    system("clear");
     cout << "Loading from bin file\n";
     char choice;
     ifstream file;
@@ -85,7 +81,6 @@ void load_roster_bin(roster **begin) {
 }
 
 void load_roster_txt(roster **begin) {
-    system("clear");
     cout << "Loading from txt file\n";
     char choice;
     ifstream file;
@@ -148,8 +143,8 @@ void load_roster_txt(roster **begin) {
 }
 
 void load_roster(roster **begin) {
-    system("clear");
     char choice = getChoice("Load from bin file - 1\nLoad from txt file - 2\nCancel - q\n", "12q");
+    system("clear");
     if (choice == '1') load_roster_bin(begin);
     else if (choice == '2') load_roster_txt(begin);
     else if (choice == 'q') return;

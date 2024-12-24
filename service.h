@@ -13,6 +13,6 @@ void fixId(roster **begin);
 
 void printRosterHeader();
 
-void printRoster(roster *current);
+void printRoster(NII info);
 
 #endif

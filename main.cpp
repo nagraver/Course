@@ -10,22 +10,26 @@
 
 using namespace std;
 
-int main() {
-    char choice;
-    char c;
-    roster *begin = nullptr;
+void anyKeyToContiniue() {
+    cout << "Press any key to continiue\n";
+    char c = getch();
+    system("clear");
+}
 
+int main() {
+    char c, choice;
+    roster *begin = nullptr;
+    NII content;
     while (true) {
-        system("clear");
         cout << "1) Add to the beginning of the list\n";
         cout << "2) Add to the end of the list\n";
         cout << "3) Organize the list\n";
         cout << "4) Display data\n";
         cout << "5) Sort list\n";
         cout << "6) Search\n";
-        cout << "7) Delete roster\n";
         cout << "e) Edit\n";
         cout << "d) Delete first element\n";
+        cout << "D) Delete roster\n";
         cout << "s) Save data\n";
         cout << "l) Load data\n";
         cout << "q) Exit\n";
@@ -33,60 +37,99 @@ int main() {
         choice = getch();
         switch (choice) {
             case '1':
-                add_first(&begin, enter_container());
+                system("clear");
+                content = enter_container();
+                content.id = 0;
+                add_first(&begin, content);
+
+                printRosterHeader();
+                printRoster(content);
+                anyKeyToContiniue();
                 break;
             case '2':
-                add_last(&begin, enter_container());
+                system("clear");
+                content = enter_container();
+                add_last(&begin, content);
+                printRosterHeader();
+                printRoster(content);
+                anyKeyToContiniue();
                 break;
             case '3':
-                add_many(&begin);
+                system("clear");
+                while (true) {
+                    content = enter_container();
+                    add_last(&begin, content);
+                    cout << "Continue organizing the list: any key\n";
+                    cout << "Finish organizing the list: q\n";
+                    c = getch();
+                    system("clear");
+                    if (c != 'q') continue;
+                    break;
+                }
                 break;
             case '4':
+                system("clear");
                 scrolling(&begin);
                 break;
             case '5':
+                system("clear");
                 insertionSort(&begin);
+                cout << "List been sorted\n";
+                anyKeyToContiniue();
                 break;
             case '6':
+                system("clear");
                 searchByField(&begin);
+                anyKeyToContiniue();
                 break;
             case '7':
-                // cout << "You are going to delete roster.\nPress d to confirm\n";
-                // c = getch();
-                // if (choice == 'd')
-                //     while (begin) clear_first(&begin);
-                // else cout << "Canceled\n";
-                // break;
-                while (begin) clear_first(&begin);
             case 'e':
             case 'E':
+                system("clear");
                 edit(&begin);
+                anyKeyToContiniue();
                 break;
             case 'd':
-            case 'D':
-                // cout << "You are going to firts element.\nPress any key to confirm\nPress q to cancel\n";
-                // c = getch();
-                // if (c == 'q') {
-                //     cout << "Canceled\n";
-                //     break;
-                // }
+                system("clear");
+                cout << "Delete firts element\nPress d to confirm\nPress any key to cancel\n";
+                c = getch();
+                if (c != 'd') break;
                 clear_first(&begin);
+                anyKeyToContiniue();
+                break;
+            case 'D':
+                system("clear");
+                cout << "You are going to delete roster\nPress D to confirm\nPress any key to cancel\n";
+                c = getch();
+                if (c != 'D') break;
+                while (begin) clear_first(&begin);
+                system("clear");
+                anyKeyToContiniue();
                 break;
             case 's':
             case 'S':
+                system("clear");
                 save_roster(&begin);
                 break;
             case 'l':
             case 'L':
+                system("clear");
                 load_roster(&begin);
                 break;
             case 'Q':
             case 'q':
+                system("clear");
+                cout << "All unsaved data will be lost.\nContiniue - q\nCancel - any key\n";
+                c = getch();
+                if (c != 'q' and c != 'Q') break;
                 while (begin) clear_first(&begin);
+                system("clear");
                 cout << "List cleared\n";
                 return 0;
             default:
+                system("clear");
                 cout << "Unknown command\n";
+                anyKeyToContiniue();
                 break;
         }
     }

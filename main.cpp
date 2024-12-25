@@ -1,12 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "files.h"
-#include "refactoring.h"
-#include "scrolling.h"
-#include "service.h"
-#include "sort.h"
-#include "structures.h"
+#include "./headers/files.h"
+#include "./headers/refactoring.h"
+#include "./headers/scrolling.h"
+#include "./headers/service.h"
+#include "./headers/structures.h"
 
 using namespace std;
 
@@ -21,14 +20,14 @@ int main() {
     roster *begin = nullptr;
     NII content;
     while (true) {
-        cout << "1) Add to the beginning of the list\n";
-        cout << "2) Add to the end of the list\n";
-        cout << "3) Organize the list\n";
+        cout << "1) Add to the beginning of List\n";
+        cout << "2) Add to the end of List\n";
+        cout << "3) Organize List\n";
         cout << "4) Display data\n";
         cout << "5) Sort list\n";
         cout << "6) Search\n";
         cout << "e) Edit\n";
-        cout << "d) Delete first element\n";
+        cout << "d) Delete selected element\n";
         cout << "D) Delete roster\n";
         cout << "s) Save data\n";
         cout << "l) Load data\n";
@@ -40,8 +39,8 @@ int main() {
                 system("clear");
                 content = enter_container();
                 content.id = 0;
-                add_first(&begin, content);
-
+                addFirst(&begin, content);
+                system("clear");
                 printRosterHeader();
                 printRoster(content);
                 anyKeyToContiniue();
@@ -49,7 +48,8 @@ int main() {
             case '2':
                 system("clear");
                 content = enter_container();
-                add_last(&begin, content);
+                addLast(&begin, content);
+                system("clear");
                 printRosterHeader();
                 printRoster(content);
                 anyKeyToContiniue();
@@ -58,23 +58,26 @@ int main() {
                 system("clear");
                 while (true) {
                     content = enter_container();
-                    add_last(&begin, content);
-                    cout << "Continue organizing the list: any key\n";
-                    cout << "Finish organizing the list: q\n";
+                    addLast(&begin, content);
+                    system("clear");
+                    printRosterHeader();
+                    printRoster(content);
+                    cout << "Continue - any key\n";
+                    cout << "Cancel - q\n";
                     c = getch();
                     system("clear");
-                    if (c != 'q') continue;
+                    if (c != 'q' and c != 'Q') continue;
                     break;
                 }
                 break;
             case '4':
                 system("clear");
                 scrolling(&begin);
+                anyKeyToContiniue();
                 break;
             case '5':
                 system("clear");
                 insertionSort(&begin);
-                cout << "List been sorted\n";
                 anyKeyToContiniue();
                 break;
             case '6':
@@ -82,7 +85,6 @@ int main() {
                 searchByField(&begin);
                 anyKeyToContiniue();
                 break;
-            case '7':
             case 'e':
             case 'E':
                 system("clear");
@@ -91,38 +93,58 @@ int main() {
                 break;
             case 'd':
                 system("clear");
-                cout << "Delete firts element\nPress d to confirm\nPress any key to cancel\n";
+                cout << "Delete selected element\n";
+                cout << "Confirm - d\n";
+                cout << "Cancel - any key\n";
                 c = getch();
                 if (c != 'd') break;
-                clear_first(&begin);
+                system("clear");
+                clearSelected(&begin);
                 anyKeyToContiniue();
                 break;
+            // case 'd':
+            //     system("clear");
+            //     cout << "Delete firts element\n";
+            //     cout << "Confirm - d\n";
+            //     cout << "Cancel - any key\n";
+            //     c = getch();
+            //     if (c != 'd') break;
+            //     clearFirst(&begin);
+            //     anyKeyToContiniue();
+            //     break;
             case 'D':
                 system("clear");
-                cout << "You are going to delete roster\nPress D to confirm\nPress any key to cancel\n";
+                cout << "Delete roster\nPress D to confirm\n";
+                cout << "Confirm - D\n";
+                cout << "Cancel - any key\n";
                 c = getch();
                 if (c != 'D') break;
-                while (begin) clear_first(&begin);
+                while (begin) clearFirst(&begin);
                 system("clear");
+                cout << "List cleared\n";
                 anyKeyToContiniue();
                 break;
             case 's':
             case 'S':
                 system("clear");
                 save_roster(&begin);
+                anyKeyToContiniue();
                 break;
             case 'l':
             case 'L':
                 system("clear");
                 load_roster(&begin);
+                anyKeyToContiniue();
                 break;
             case 'Q':
             case 'q':
                 system("clear");
-                cout << "All unsaved data will be lost.\nContiniue - q\nCancel - any key\n";
+                cout << "All unsaved data will be lost.\n";
+                cout << "Continiue - q\n";
+                cout << "Cancel - any key\n";
                 c = getch();
                 if (c != 'q' and c != 'Q') break;
-                while (begin) clear_first(&begin);
+                while (begin) clearFirst(&begin);
                 system("clear");
                 cout << "List cleared\n";
                 return 0;

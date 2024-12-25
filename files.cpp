@@ -4,15 +4,20 @@
 #include <ostream>
 #include <string>
 
-#include "refactoring.h"
-#include "service.h"
-#include "structures.h"
+#include "./headers/refactoring.h"
+#include "./headers/service.h"
+#include "./headers/structures.h"
 
 using namespace std;
 
 void save_roster_bin(roster **begin) {
     ofstream file;
-    file.open("NII", ios_base::binary);
+    string fileName;
+    cout << "Saving to bin file\nEnter name for bin file\nInput: ";
+    getline(cin, fileName);
+    system("clear");
+
+    file.open("./files/" + fileName, ios_base::binary);
     if (!file) {
         cerr << "Failed to open file\n";
         return;
@@ -23,13 +28,19 @@ void save_roster_bin(roster **begin) {
         file.write(reinterpret_cast<char *>(&content), sizeof(content));
     }
 
+    system("clear");
     cout << "Data successfully saved\n";
     file.close();
 }
 
 void save_roster_txt(roster **begin) {
     ofstream file;
-    file.open("NII.txt");
+    string fileName;
+    cout << "Saving to txt file\nEnter name for txt file\nInput: ";
+    getline(cin, fileName);
+    system("clear");
+
+    file.open("./files/" + fileName + ".txt");
     if (!file) {
         cerr << "Failed to open file\n";
         return;
@@ -46,22 +57,31 @@ void save_roster_txt(roster **begin) {
         file << endl;
     }
 
+    system("clear");
     cout << "Data successfully saved\n";
     file.close();
 }
 
 void save_roster(roster **begin) {
     char choice = getChoice("Save to bin file - 1\nSave to txt file - 2\nCancel - q\n", "12q");
+    system("clear");
     if (choice == '1') save_roster_bin(begin);
     else if (choice == '2') save_roster_txt(begin);
-    else if (choice == 'q') return;
+    else if (choice == 'q') {
+        cout << "Canceled\n";
+        return;
+    }
 }
 
 void load_roster_bin(roster **begin) {
-    cout << "Loading from bin file\n";
     char choice;
     ifstream file;
-    file.open("NII", ios_base::binary);
+    string fileName;
+    cout << "Loading from bin file\nEnter name for bin file\nInput: ";
+    getline(cin, fileName);
+    system("clear");
+
+    file.open("./files/" + fileName, ios_base::binary);
     if (!file) {
         cerr << "Failed to open file\n";
         return;
@@ -69,22 +89,27 @@ void load_roster_bin(roster **begin) {
 
     choice = getChoice("Override data - 1\nAdd data - 2\nCancel - q\n", "12q");
     if (choice == '1')
-        while (*begin) clear_first(begin);
+        while (*begin) clearFirst(begin);
     else if (choice == 'q') return;
 
     NII content;
-    while (file.read(reinterpret_cast<char *>(&content), sizeof(content))) add_last(begin, content);
+    while (file.read(reinterpret_cast<char *>(&content), sizeof(content))) addLast(begin, content);
 
+    system("clear");
     if (choice == '1') cout << "Data successfully overrided\n";
     else cout << "Data successfully added\n";
     file.close();
 }
 
 void load_roster_txt(roster **begin) {
-    cout << "Loading from txt file\n";
     char choice;
     ifstream file;
-    file.open("NII.txt");
+    string fileName;
+    cout << "Loading from txt file\nEnter name for txt file\nInput: ";
+    getline(cin, fileName);
+    system("clear");
+
+    file.open("./files/" + fileName + ".txt");
     if (!file) {
         cerr << "Failed to open file\n";
         return;
@@ -92,7 +117,7 @@ void load_roster_txt(roster **begin) {
 
     choice = getChoice("Override data - 1\nAdd data - 2\nCancel - q\n", "12q");
     if (choice == '1')
-        while (*begin) clear_first(begin);
+        while (*begin) clearFirst(begin);
     else if (choice == 'q') return;
 
     string line;
@@ -134,9 +159,10 @@ void load_roster_txt(roster **begin) {
         temp = line.substr(0, pos);
         content.salary = stoi(temp);
 
-        add_last(begin, content);
+        addLast(begin, content);
     }
 
+    system("clear");
     if (choice == '1') cout << "Data successfully overrided\n";
     else cout << "Data successfully added\n";
     file.close();
@@ -147,5 +173,8 @@ void load_roster(roster **begin) {
     system("clear");
     if (choice == '1') load_roster_bin(begin);
     else if (choice == '2') load_roster_txt(begin);
-    else if (choice == 'q') return;
+    else if (choice == 'q') {
+        cout << "Canceled\n";
+        return;
+    }
 }

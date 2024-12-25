@@ -5,6 +5,10 @@
 
 using namespace ::std;
 
+string nameInputCheck(string text);
+
+int intInputCheck(string text);
+
 char getch();
 
 char getChoice(const string &prompt, const char *validChoices);

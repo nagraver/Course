@@ -15,15 +15,15 @@ typedef struct roster {
 
 data enter_container();
 
-void add_first(roster **begin, data content);
+void addFirst(roster **begin, data content);
 
-void add_last(roster **begin, data content);
+void addLast(roster **begin, data content);
 
 void add_many(roster **begin);
 
 void print_roster(roster **begin);
 
-void clear_first(roster **begin);
+void clearFirst(roster **begin);
 
 void save_roster(roster **begin);
 
@@ -50,12 +50,12 @@ int main() {
 
     switch (value) {
     case '1':
-      add_first(&begin, enter_container());
+      addFirst(&begin, enter_container());
       puts("Элемент добавлен в начало");
       print_roster(&begin);
       break;
     case '2':
-      add_last(&begin, enter_container());
+      addLast(&begin, enter_container());
       puts("Элемент добавлен в конец");
       print_roster(&begin);
       break;
@@ -67,7 +67,7 @@ int main() {
       print_roster(&begin);
       break;
     case '5':
-      clear_first(&begin);
+      clearFirst(&begin);
       puts("Первый элемент удален");
       print_roster(&begin);
       break;
@@ -85,7 +85,7 @@ int main() {
       break;
     case '0':
       while (begin)
-        clear_first(&begin);
+        clearFirst(&begin);
       puts("Список отчищен");
       return 0;
     default:
@@ -106,7 +106,7 @@ data enter_container() {
   return container;
 }
 
-void add_first(roster **begin, data content) {
+void addFirst(roster **begin, data content) {
   roster *temp = (roster *)malloc(sizeof(roster));
   if (!temp) {
     perror("Ошибка выделения памяти");
@@ -117,7 +117,7 @@ void add_first(roster **begin, data content) {
   *begin = temp;
 }
 
-void add_last(roster **begin, data content) {
+void addLast(roster **begin, data content) {
   roster *temp = (roster *)malloc(sizeof(roster));
   if (!temp) {
     perror("Ошибка выделения памяти");
@@ -140,7 +140,7 @@ void add_last(roster **begin, data content) {
 void add_many(roster **begin) {
   char value;
   while (1) {
-    add_last(begin, enter_container());
+    addLast(begin, enter_container());
     puts("Продолжить организацию списка: 1");
     puts("Закончить организацию списка: Любая кнопка");
     scanf(" %c", &value);
@@ -157,7 +157,7 @@ void print_roster(roster **begin) {
   }
 }
 
-void clear_first(roster **begin) {
+void clearFirst(roster **begin) {
   if (!*begin)
     return;
   roster *temp = *begin;
@@ -191,9 +191,9 @@ void load_roster(roster **begin) {
 
   data content;
   while (*begin)
-    clear_first(begin);
+    clearFirst(begin);
   while (fread(&content, sizeof(data), 1, file))
-    add_last(begin, content);
+    addLast(begin, content);
 
   fclose(file);
 }

@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "service.h"
-#include "structures.h"
+#include "./headers/service.h"
+#include "./headers/structures.h"
 
 using namespace ::std;
 
@@ -15,7 +15,7 @@ void scrolling(roster **begin) {
     for (roster *current = *begin; current; current = current->next) total_items++;
 
     if (total_items == 0) {
-        cout << "The list is empty.\n";
+        cout << "List is empty.\n";
         return;
     }
 
@@ -47,39 +47,52 @@ void scrolling(roster **begin) {
 }
 
 void searchByField(roster **begin) {
-    char choice =
-        getChoice("ID - 1\nDepartment - 2\nName - 3\nTheme - 4\nDuration - 5\nPosition - 6\nSalary - 7\nCancel - q\n",
-                  "1234567q");
+    printRosterHeader();
+    cout << "Choose column (i/d/n/p/s/t/w)\nQuit - q\n";
+    char choice = getch();
 
     if (choice == 'q' || choice == 'Q') return;
 
-    if (choice == '1' || choice == '2' || choice == '4' || choice == '5' || choice == '6' || choice == '7') {
-        int value;
-        cout << "Enter value\nInput: ";
-        cin >> value;
-        system("clear");
-        printRosterHeader();
+    system("clear");
+    if (choice == 'n') {
+        string searchValue = nameInputCheck("Enter value");
         for (roster *current = *begin; current; current = current->next) {
-            if ((choice == '1' && current->info.id == value) || (choice == '2' && current->info.department == value) ||
-                (choice == '4' && current->info.theme_number == value) ||
-                (choice == '5' && current->info.work_duration == value) ||
-                (choice == '6' && current->info.position == value) ||
-                (choice == '7' && current->info.salary == value)) {
+            if (current->info.name == searchValue) {
+                printRosterHeader();
                 printRoster(current->info);
             }
         }
-    } else if (choice == '3') {
-        string _value;
-        cout << "Enter value\nInput: ";
-        cin.ignore();
-        getline(cin, _value);
-        system("clear");
-
-        printRosterHeader();
-        for (roster *current = *begin; current; current = current->next) {
-            if (choice == '3' && current->info.name == _value) printRoster(current->info);
-        }
     } else {
-        cout << "Error\n";
+        int searchValue = intInputCheck("Enter value");
+
+        for (roster *current = *begin; current; current = current->next) {
+            bool match = false;
+
+            switch (choice) {
+                case 'i':
+                    match = (current->info.id == searchValue);
+                    break;
+                case 'd':
+                    match = (current->info.department == searchValue);
+                    break;
+                case 't':
+                    match = (current->info.theme_number == searchValue);
+                    break;
+                case 'w':
+                    match = (current->info.work_duration == searchValue);
+                    break;
+                case 'p':
+                    match = (current->info.position == searchValue);
+                    break;
+                case 's':
+                    match = (current->info.salary == searchValue);
+                    break;
+            }
+
+            if (match) {
+                printRosterHeader();
+                printRoster(current->info);
+            }
+        }
     }
 }

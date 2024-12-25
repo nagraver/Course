@@ -1,48 +1,39 @@
-#include <cmath>
 #include <cstdlib>
+#include <iostream>
 #include <ostream>
-#include <stdexcept>
 
-#include "iostream"
-#include "service.h"
-#include "structures.h"
+#include "./headers/service.h"
+#include "./headers/structures.h"
 
 using namespace std;
 
 NII enter_container() {
     NII container;
-
-    cout << "Department: ";
-    cin >> container.department;
-
-    cout << "Full Name: ";
-    cin.ignore();
-    getline(cin, container.name);
-
-    cout << "Position: ";
-    cin >> container.position;
-
-    cout << "Salary: ";
-    cin >> container.salary;
-
-    cout << "Theme number: ";
-    cin >> container.theme_number;
-
-    cout << "Work experience: ";
-    cin >> container.work_duration;
-
+    container.department = intInputCheck("Department");
+    system("clear");
+    container.name = nameInputCheck("Full Name");
+    system("clear");
+    container.position = intInputCheck("Position");
+    system("clear");
+    container.salary = intInputCheck("Salary");
+    system("clear");
+    container.theme_number = intInputCheck("Theme number");
+    system("clear");
+    container.work_duration = intInputCheck("Work experience");
+    system("clear");
     return container;
 }
 
-void add_first(roster **begin, NII content) {
+void addFirst(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = *begin;
+    if (*begin != nullptr) (*begin)->prev = temp;
     *begin = temp;
     fixId(begin);
 }
 
-void add_last(roster **begin, NII content) {
+void addLast(roster **begin, NII content) {
     roster *temp = new roster();
     temp->info = content;
     temp->next = nullptr;
@@ -51,55 +42,175 @@ void add_last(roster **begin, NII content) {
         roster *current = *begin;
         for (; current->next; current = current->next);
         current->next = temp;
+        temp->prev = current;
     }
     fixId(begin);
 }
 
-void clear_first(roster **begin) {
+void clearFirst(roster **begin) {
     if (*begin == nullptr) {
-        cout << "The list is empty.\n";
+        cout << "List is empty.\n";
         return;
     }
-
     roster *temp = *begin;
     for (roster *current = *begin; current; current = current->next) current->info.id--;
     *begin = (*begin)->next;
     delete temp;
     fixId(begin);
+    system("clear");
     cout << "First element deleted\n";
+}
+
+void clearSelected(roster **begin) {
+    if (*begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    int _id = intInputCheck("Choose ID to delete");
+
+    for (roster *current = *begin; current; current = current->next) {
+        if (current->info.id == _id) {
+            while (true) {
+                system("clear");
+                printRosterHeader();
+                printRoster(current->info);
+                cout << "Delete this (y/n)\n";
+                char choice = getch();
+                if (choice == 'y') {
+                    if (current->prev) current->prev->next = current->next;
+                    else *begin = current->next;
+                    if (current->next) current->next->prev = current->prev;
+                    delete current;
+                    system("clear");
+                    cout << "Element deleted.\n";
+                    break;
+                } else if (choice == 'n') {
+                    system("clear");
+                    cout << "Canceled\n";
+                    break;
+                }
+            }
+            fixId(begin);
+            return;
+        }
+    }
+    cout << "ID not found\n";
+}
+
+void insertionSortIncrease(roster **begin) {
+    if (begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    roster *sorted = nullptr;
+    roster *current = *begin;
+
+    while (current) {
+        roster *next = current->next;
+
+        if (!sorted || sorted->info.salary >= current->info.salary) {
+            current->next = sorted;
+            if (sorted) sorted->prev = current;
+            current->prev = nullptr;
+            sorted = current;
+        } else {
+            roster *temp = sorted;
+            while (temp->next && temp->next->info.salary < current->info.salary) { temp = temp->next; }
+            current->next = temp->next;
+            if (temp->next) temp->next->prev = current;
+            temp->next = current;
+            current->prev = temp;
+        }
+        current = next;
+    }
+    *begin = sorted;
+}
+
+void insertionSortDecrease(roster **begin) {
+    if (begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    roster *sorted = nullptr;
+    roster *current = *begin;
+
+    while (current) {
+        roster *next = current->next;
+
+        if (!sorted || sorted->info.salary <= current->info.salary) {
+            current->next = sorted;
+            if (sorted) sorted->prev = current;
+            current->prev = nullptr;
+            sorted = current;
+        } else {
+            roster *temp = sorted;
+            // Ищем место для вставки
+            while (temp->next && temp->next->info.salary > current->info.salary) { temp = temp->next; }
+            current->next = temp->next;
+            if (temp->next) temp->next->prev = current;
+            temp->next = current;
+            current->prev = temp;
+        }
+        current = next;
+    }
+    *begin = sorted;
+}
+
+void insertionSort(roster **begin) {
+    if (begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    char choice = getChoice("Increasing sord - 1\nDecreasing sort - 2\nCancel - q\n", "12q");
+    if (choice == '1') insertionSortIncrease(begin);
+    else if (choice == '2') insertionSortDecrease(begin);
+    else if (choice == 'q') return;
+    fixId(begin);
+    system("clear");
+    cout << "List been sorted\n";
 }
 
 void edit(roster **begin) {
     if (*begin == nullptr) {
-        cout << "The list is empty.\n";
+        cout << "List is empty.\n";
         return;
     }
-    int _id;
+    int _id = intInputCheck("Choose ID to edit");
 
-    while (true) {
-        cout << "Chooese ID to edit\n";
-        try {
-            cin >> _id;
-            if (cin.fail()) throw invalid_argument("Input must be integer\n");
-            break;
-        } catch (exception &e) {
-            system("clear");
-            cin.clear();
-            cin.ignore();
-            cerr << e.what();
-        }
-    }
     for (roster *current = *begin; current; current = current->next) {
         if (current->info.id == _id) {
+            system("clear");
             printRosterHeader();
             printRoster(current->info);
-            cout << "Enter new values\n";
-            NII content = enter_container();
+            cout << "Choose column (d/n/p/s/t/w)\n";
+            char choice = getch();
             system("clear");
-            content.id = _id;
-            current->info = content;
+            switch (choice) {
+                case 'd':
+                    current->info.department = intInputCheck("Department");
+                    break;
+                case 'n':
+                    current->info.name = nameInputCheck("Full name");
+                    break;
+                case 'p':
+                    current->info.position = intInputCheck("Position");
+                    break;
+                case 's':
+                    current->info.salary = intInputCheck("Salary");
+                    break;
+                case 't':
+                    current->info.theme_number = intInputCheck("Theme number");
+                    break;
+                case 'w':
+                    current->info.work_duration = intInputCheck("Work experience");
+                    break;
+                default:
+                    cout << "Wrong choice\n";
+                    break;
+            }
+            system("clear");
             printRosterHeader();
-            printRoster(content);
+            printRoster(current->info);
             return;
         }
     }

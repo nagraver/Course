@@ -1,12 +1,52 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <string>
 
-#include "structures.h"
+#include "./headers/structures.h"
 
-using namespace ::std;
+using namespace std;
+
+string nameInputCheck(string text) {
+    string value;
+    while (true) {
+        cout << text + ": ";
+        getline(cin, value);
+        bool flag = false;
+        for (int i = 0; i < value.length(); i++) {
+            if (isdigit(value[i])) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            system("clear");
+            cout << "Name can not contains digits\n";
+        } else break;
+    }
+    return value;
+}
+
+int intInputCheck(string text) {
+    int value;
+    while (true) {
+        cout << text + ": ";
+        cin >> value;
+        if (cin.fail()) {
+            system("clear");
+            cout << "Input must be integer\n";
+            cin.clear();
+            cin.ignore();
+            continue;
+        }
+        break;
+    }
+    cin.ignore();
+    return value;
+}
 
 char getch() {
     char buf = 0;

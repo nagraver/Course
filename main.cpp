@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <iostream>
+#include <string>
 
 #include "./headers/files.h"
 #include "./headers/refactoring.h"
@@ -11,147 +12,90 @@ using namespace std;
 
 void anyKeyToContiniue() {
     cout << "Press any key to continiue\n";
-    char c = getch();
+    char choice = getch();
     system("clear");
 }
 
 int main() {
-    char c, choice;
+    char choice;
     roster *begin = nullptr;
     NII content;
-    while (true) {
-        cout << "1) Add to the beginning of List\n";
-        cout << "2) Add to the end of List\n";
-        cout << "3) Organize List\n";
-        cout << "4) Display data\n";
-        cout << "5) Sort list\n";
-        cout << "6) Search\n";
-        cout << "e) Edit\n";
-        cout << "d) Delete selected element\n";
-        cout << "D) Delete roster\n";
-        cout << "s) Save data\n";
-        cout << "l) Load data\n";
-        cout << "q) Exit\n";
 
-        choice = getch();
+    while (true) {
+        string text = "1 - Adding\n2 - Print data\n3 - Edit data\n4 - Save data\n5 - Load data\n";
+        choice = getChoice(text, "12345");
         switch (choice) {
             case '1':
-                system("clear");
-                content = enter_container();
-                content.id = 0;
-                addFirst(&begin, content);
-                system("clear");
-                printRosterHeader();
-                printRoster(content);
-                anyKeyToContiniue();
+                while (true) {
+                    choice = getChoice("1 - Add first\n2 - Add last\n3 - Organize\n", "123");
+                    if (choice == '1') addFirst(&begin, enterContainer());
+                    else if (choice == '2') addLast(&begin, enterContainer());
+                    else if (choice == '3') addMany(&begin);
+                    else if (choice == ESC) break;
+                }
                 break;
             case '2':
-                system("clear");
-                content = enter_container();
-                addLast(&begin, content);
-                system("clear");
-                printRosterHeader();
-                printRoster(content);
-                anyKeyToContiniue();
+                while (true) {
+                    choice = getChoice("1 - Srolling\n2 - Find\n3 - Analyze\n", "123");
+                    if (choice == '1') scrolling(&begin);
+                    else if (choice == '2') findByField(&begin);
+                    else if (choice == '3') analyzeThemes(&begin);
+                    else if (choice == ESC) break;
+                }
                 break;
             case '3':
-                system("clear");
                 while (true) {
-                    content = enter_container();
-                    addLast(&begin, content);
-                    system("clear");
-                    printRosterHeader();
-                    printRoster(content);
-                    cout << "Continue - any key\n";
-                    cout << "Cancel - q\n";
-                    c = getch();
-                    system("clear");
-                    if (c != 'q' and c != 'Q') continue;
-                    break;
+                    choice = getChoice("1 - Edit element\n2 - Sort\n3 - Delete selected\n4 - Delete list\n", "1234");
+                    if (choice == '1') edit(&begin);
+                    else if (choice == '2') {
+                        while (true) {
+                            char choice = getChoice("1 - Increasing sord\n2 - Decreasing sort\n", "12");
+                            if (choice == '1') insertionSortIncrease(&begin);
+                            else if (choice == '2') insertionSortDecrease(&begin);
+                            else if (choice == ESC) break;
+                        }
+                    } else if (choice == '3') deleteSelected(&begin);
+                    else if (choice == '4')
+                        while (begin) deleteFirst(&begin);
+                    else if (choice == ESC) break;
                 }
                 break;
             case '4':
-                system("clear");
-                scrolling(&begin);
-                anyKeyToContiniue();
+                while (true) {
+                    choice = getChoice("1 - Save to bin file\n2 - Save to txt file\n", "12");
+                    if (choice == '1') save_roster_bin(&begin);
+                    else if (choice == '2') save_roster_txt(&begin);
+                    else if (choice == ESC) break;
+                }
                 break;
             case '5':
-                system("clear");
-                insertionSort(&begin);
-                anyKeyToContiniue();
+                while (true) {
+                    choice = getChoice("1 - Load from bin file\n2 - Load from txt file\n", "12");
+                    if (choice == '1') load_roster_bin(&begin);
+                    else if (choice == '2') load_roster_txt(&begin);
+                    else if (choice == ESC) break;
+                }
                 break;
-            case '6':
-                system("clear");
-                searchByField(&begin);
-                anyKeyToContiniue();
+            case ESC:
+                while (true) {
+                    choice = getChoice("1 - Exit without saving\n2 - Exit and save\n", "12");
+                    if (choice == ESC) break;
+                    else if (choice == '1') {
+                        while (begin) deleteFirst(&begin);
+                        return 0;
+                    } else if (choice == '2') {
+                        while (true) {
+                            choice = getChoice("1 - Save to bin file\n2 - Save to txt file\n", "12");
+                            if (choice == ESC) break;
+                            else if (choice == '1') save_roster_bin(&begin);
+                            else if (choice == '2') save_roster_txt(&begin);
+                            return 0;
+                        }
+                    }
+                }
                 break;
-            case 'e':
-            case 'E':
-                system("clear");
-                edit(&begin);
-                anyKeyToContiniue();
-                break;
-            case 'd':
-                system("clear");
-                cout << "Delete selected element\n";
-                cout << "Confirm - d\n";
-                cout << "Cancel - any key\n";
-                c = getch();
-                if (c != 'd') break;
-                system("clear");
-                clearSelected(&begin);
-                anyKeyToContiniue();
-                break;
-            // case 'd':
-            //     system("clear");
-            //     cout << "Delete firts element\n";
-            //     cout << "Confirm - d\n";
-            //     cout << "Cancel - any key\n";
-            //     c = getch();
-            //     if (c != 'd') break;
-            //     clearFirst(&begin);
-            //     anyKeyToContiniue();
-            //     break;
-            case 'D':
-                system("clear");
-                cout << "Delete roster\nPress D to confirm\n";
-                cout << "Confirm - D\n";
-                cout << "Cancel - any key\n";
-                c = getch();
-                if (c != 'D') break;
-                while (begin) clearFirst(&begin);
-                system("clear");
-                cout << "List cleared\n";
-                anyKeyToContiniue();
-                break;
-            case 's':
-            case 'S':
-                system("clear");
-                save_roster(&begin);
-                anyKeyToContiniue();
-                break;
-            case 'l':
-            case 'L':
-                system("clear");
-                load_roster(&begin);
-                anyKeyToContiniue();
-                break;
-            case 'Q':
-            case 'q':
-                system("clear");
-                cout << "All unsaved data will be lost.\n";
-                cout << "Continiue - q\n";
-                cout << "Cancel - any key\n";
-                c = getch();
-                if (c != 'q' and c != 'Q') break;
-                while (begin) clearFirst(&begin);
-                system("clear");
-                cout << "List cleared\n";
-                return 0;
             default:
-                system("clear");
                 cout << "Unknown command\n";
-                anyKeyToContiniue();
                 break;
         }
     }

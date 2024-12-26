@@ -64,24 +64,18 @@ char getch() {
     return buf;
 }
 
-char getChoice(const string &prompt, const char *validChoices) {
+char getChoice(string prompt, string validChoices) {
     char choice;
     while (true) {
-        cout << prompt;
+        cout << prompt << "ESC - Back\n";
         choice = getch();
-
+        system("clear");
+        if (choice == ESC) return choice;
         bool isValid = false;
-        for (int i = 0; i < sizeof(validChoices); i++) {
-            if (choice == validChoices[i]) {
-                isValid = true;
-                break;
-            }
-        }
-        if (isValid) break;
+        for (int i = 0; i < validChoices.length(); i++)
+            if (choice == validChoices[i]) return choice;
         cout << "Wrong choice, please try again.\n";
     }
-
-    return choice;
 }
 
 void fixId(roster **begin) {
@@ -92,7 +86,7 @@ void fixId(roster **begin) {
     }
 }
 
-string center(const string &text, int width) {
+string center(string text, int width) {
     if (width <= text.length()) return text;
 
     int left_padding = (width - text.length()) / 2;

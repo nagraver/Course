@@ -39,8 +39,9 @@ void save_roster_txt(roster **begin) {
     cout << "Saving to txt file\nEnter name for txt file\nInput: ";
     getline(cin, fileName);
     system("clear");
-
-    file.open("./files/" + fileName + ".txt");
+    
+    if (fileName.size() >= 4 && fileName.substr(fileName.size() - 4) == ".txt") file.open("./files/" + fileName);
+    else file.open("./files/" + fileName + ".txt");
     if (!file) {
         cerr << "Failed to open file\n";
         return;
@@ -62,17 +63,6 @@ void save_roster_txt(roster **begin) {
     file.close();
 }
 
-void save_roster(roster **begin) {
-    char choice = getChoice("Save to bin file - 1\nSave to txt file - 2\nCancel - q\n", "12q");
-    system("clear");
-    if (choice == '1') save_roster_bin(begin);
-    else if (choice == '2') save_roster_txt(begin);
-    else if (choice == 'q') {
-        cout << "Canceled\n";
-        return;
-    }
-}
-
 void load_roster_bin(roster **begin) {
     char choice;
     ifstream file;
@@ -87,10 +77,10 @@ void load_roster_bin(roster **begin) {
         return;
     }
 
-    choice = getChoice("Override data - 1\nAdd data - 2\nCancel - q\n", "12q");
+    choice = getChoice("1 - Override data\n2 - Add data\n", "12");
     if (choice == '1')
-        while (*begin) clearFirst(begin);
-    else if (choice == 'q') return;
+        while (*begin) deleteFirst(begin);
+    else if (choice == ESC) return;
 
     NII content;
     while (file.read(reinterpret_cast<char *>(&content), sizeof(content))) addLast(begin, content);
@@ -109,16 +99,17 @@ void load_roster_txt(roster **begin) {
     getline(cin, fileName);
     system("clear");
 
-    file.open("./files/" + fileName + ".txt");
+    if (fileName.size() >= 4 && fileName.substr(fileName.size() - 4) == ".txt") file.open("./files/" + fileName);
+    else file.open("./files/" + fileName + ".txt");
     if (!file) {
         cerr << "Failed to open file\n";
         return;
     }
 
-    choice = getChoice("Override data - 1\nAdd data - 2\nCancel - q\n", "12q");
+    choice = getChoice("1 - Override data\n2 - Add data\n", "12");
     if (choice == '1')
-        while (*begin) clearFirst(begin);
-    else if (choice == 'q') return;
+        while (*begin) deleteFirst(begin);
+    else if (choice == ESC) return;
 
     string line;
     while (getline(file, line)) {
@@ -166,15 +157,4 @@ void load_roster_txt(roster **begin) {
     if (choice == '1') cout << "Data successfully overrided\n";
     else cout << "Data successfully added\n";
     file.close();
-}
-
-void load_roster(roster **begin) {
-    char choice = getChoice("Load from bin file - 1\nLoad from txt file - 2\nCancel - q\n", "12q");
-    system("clear");
-    if (choice == '1') load_roster_bin(begin);
-    else if (choice == '2') load_roster_txt(begin);
-    else if (choice == 'q') {
-        cout << "Canceled\n";
-        return;
-    }
 }

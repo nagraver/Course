@@ -1,3 +1,5 @@
+#include "headers/refactoring.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <ostream>
@@ -7,7 +9,7 @@
 
 using namespace std;
 
-NII enter_container() {
+NII enterContainer() {
     NII container;
     container.department = intInputCheck("Department");
     system("clear");
@@ -31,6 +33,8 @@ void addFirst(roster **begin, NII content) {
     if (*begin != nullptr) (*begin)->prev = temp;
     *begin = temp;
     fixId(begin);
+    printRosterHeader();
+    printRoster(content);
 }
 
 void addLast(roster **begin, NII content) {
@@ -45,9 +49,21 @@ void addLast(roster **begin, NII content) {
         temp->prev = current;
     }
     fixId(begin);
+    printRosterHeader();
+    printRoster(temp->info);
 }
 
-void clearFirst(roster **begin) {
+void addMany(roster **begin) {
+    char choice;
+    while (true) {
+        addLast(begin, enterContainer());
+        choice = getChoice("1 - Continue\n", "1");
+        if (choice == '1') addLast(begin, enterContainer());
+        else if (choice == ESC) break;
+    }
+}
+
+void deleteFirst(roster **begin) {
     if (*begin == nullptr) {
         cout << "List is empty.\n";
         return;
@@ -61,7 +77,7 @@ void clearFirst(roster **begin) {
     cout << "First element deleted\n";
 }
 
-void clearSelected(roster **begin) {
+void deleteSelected(roster **begin) {
     if (*begin == nullptr) {
         cout << "List is empty.\n";
         return;
@@ -98,7 +114,7 @@ void clearSelected(roster **begin) {
 }
 
 void insertionSortIncrease(roster **begin) {
-    if (begin == nullptr) {
+    if (*begin == nullptr) {
         cout << "List is empty.\n";
         return;
     }
@@ -124,10 +140,13 @@ void insertionSortIncrease(roster **begin) {
         current = next;
     }
     *begin = sorted;
+    fixId(begin);
+    system("clear");
+    cout << "List been sorted\n";
 }
 
 void insertionSortDecrease(roster **begin) {
-    if (begin == nullptr) {
+    if (*begin == nullptr) {
         cout << "List is empty.\n";
         return;
     }
@@ -144,7 +163,6 @@ void insertionSortDecrease(roster **begin) {
             sorted = current;
         } else {
             roster *temp = sorted;
-            // Ищем место для вставки
             while (temp->next && temp->next->info.salary > current->info.salary) { temp = temp->next; }
             current->next = temp->next;
             if (temp->next) temp->next->prev = current;
@@ -154,17 +172,6 @@ void insertionSortDecrease(roster **begin) {
         current = next;
     }
     *begin = sorted;
-}
-
-void insertionSort(roster **begin) {
-    if (begin == nullptr) {
-        cout << "List is empty.\n";
-        return;
-    }
-    char choice = getChoice("Increasing sord - 1\nDecreasing sort - 2\nCancel - q\n", "12q");
-    if (choice == '1') insertionSortIncrease(begin);
-    else if (choice == '2') insertionSortDecrease(begin);
-    else if (choice == 'q') return;
     fixId(begin);
     system("clear");
     cout << "List been sorted\n";

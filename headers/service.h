@@ -11,9 +11,11 @@ int intInputCheck(string text);
 
 char getch();
 
-char getChoice(const string &prompt, const char *validChoices);
+char getChoice(string prompt, string validChoices);
 
 void fixId(roster **begin);
+
+string center(string text, int width);
 
 void printRosterHeader();
 

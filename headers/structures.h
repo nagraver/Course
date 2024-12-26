@@ -3,10 +3,15 @@
 
 #include <iostream>
 
+using namespace std;
+
+const char ESC = 27;
+const char ENTER = 10;
+
 struct NII {
     int id;
     int department;
-    std::string name;
+    string name;
     int theme_number;
     int work_duration;
     int position;
@@ -19,4 +24,4 @@ struct roster {
     struct roster *prev;
 };
 
-#endif //STRUCTURES_H
+#endif

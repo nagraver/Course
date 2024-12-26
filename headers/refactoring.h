@@ -3,17 +3,21 @@
 
 #include "structures.h"
 
-NII enter_container();
+NII enterContainer();
 
 void addFirst(roster **begin, NII content);
 
 void addLast(roster **begin, NII content);
 
-void clearFirst(roster **begin);
+void addMany(roster **begin);
 
-void clearSelected(roster **begin);
+void deleteFirst(roster **begin);
 
-void insertionSort(roster **begin);
+void deleteSelected(roster **begin);
+
+void insertionSortIncrease(roster **begin);
+
+void insertionSortDecrease(roster **begin);
 
 void edit(roster **begin);
 

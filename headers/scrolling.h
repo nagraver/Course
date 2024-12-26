@@ -5,6 +5,8 @@
 
 void scrolling(roster **begin);
 
-void searchByField(roster **begin);
+void findByField(roster **begin);
+
+void analyzeThemes(roster **begin);
 
 #endif

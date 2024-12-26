@@ -1,11 +1,12 @@
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <string>
 
 #include "./headers/service.h"
 #include "./headers/structures.h"
 
-using namespace ::std;
+using namespace std;
 
 void scrolling(roster **begin) {
     const int ITEMS_PER_PAGE = 5;
@@ -29,33 +30,30 @@ void scrolling(roster **begin) {
             if (index >= start_index && index < end_index) { printRoster(current->info); }
         }
 
-        cout << "Page " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << " (n/p/q): \n";
+        cout << "Page " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << endl;
+        char choice = getChoice("1 - Previous\n2 - Next\n", "12");
 
-        char command;
-        command = getch();
-
-        if (command == 'N' || command == 'n') {
-            if (end_index < total_items) page++;
-        } else if (command == 'P' || command == 'p') {
+        if (choice == '1') {
             if (page > 0) page--;
-        } else if (command == 'Q' || command == 'q') {
-            break;
-        } else {
-            cout << "Invalid command\n";
-        }
+        } else if (choice == '2') {
+            if (end_index < total_items) page++;
+        } else if (choice == ESC) break;
     }
 }
 
-void searchByField(roster **begin) {
-    printRosterHeader();
-    cout << "Choose column (i/d/n/p/s/t/w)\nQuit - q\n";
-    char choice = getch();
-
-    if (choice == 'q' || choice == 'Q') return;
-
+void findByField(roster **begin) {
+    if (*begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    string prompt =
+        "Search by:\n1 - ID\n2 - Department\n3 - name\n4 - Theme\n5 - Experience\n6 - Position\n7 - Salary\n";
+    char choice = getChoice(prompt, "1234567");
+    if (choice == ESC) return;
     system("clear");
-    if (choice == 'n') {
+    if (choice == '3') {
         string searchValue = nameInputCheck("Enter value");
+        
         for (roster *current = *begin; current; current = current->next) {
             if (current->info.name == searchValue) {
                 printRosterHeader();
@@ -64,27 +62,26 @@ void searchByField(roster **begin) {
         }
     } else {
         int searchValue = intInputCheck("Enter value");
-
+        
         for (roster *current = *begin; current; current = current->next) {
             bool match = false;
-
             switch (choice) {
-                case 'i':
+                case '1':
                     match = (current->info.id == searchValue);
                     break;
-                case 'd':
+                case '2':
                     match = (current->info.department == searchValue);
                     break;
-                case 't':
+                case '4':
                     match = (current->info.theme_number == searchValue);
                     break;
-                case 'w':
+                case '5':
                     match = (current->info.work_duration == searchValue);
                     break;
-                case 'p':
+                case '6':
                     match = (current->info.position == searchValue);
                     break;
-                case 's':
+                case '7':
                     match = (current->info.salary == searchValue);
                     break;
             }
@@ -95,4 +92,53 @@ void searchByField(roster **begin) {
             }
         }
     }
+}
+
+void analyzeThemes(roster **begin) {
+    if (*begin == nullptr) {
+        cout << "List is empty.\n";
+        return;
+    }
+    int rosterCount;
+    for (roster *current = *begin; current; current = current->next) rosterCount++;
+
+    int themeCount = 0;
+    int *themes = new int[rosterCount];
+    int *employeeCount = new int[rosterCount];
+    int *salaryFund = new int[rosterCount];
+
+    for (roster *current = *begin; current; current = current->next) {
+        int themeNumber = current->info.theme_number;
+        int salary = current->info.salary;
+
+        bool found = false;
+        for (int i = 0; i < themeCount; i++) {
+            if (themes[i] == themeNumber) {
+                employeeCount[i]++;
+                salaryFund[i] += salary;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            themes[themeCount] = themeNumber;
+            employeeCount[themeCount] = 1;
+            salaryFund[themeCount] = salary;
+            themeCount++;
+        }
+    }
+
+    cout << center("Theme Number", 15) << " | " << center("Employee Count", 15) << " | " << center("Salary Fund", 18)
+         << endl;
+
+    cout << string(15, '-') << "-+-" << string(15, '-') << "-+-" << string(18, '-') << endl;
+
+    for (int i = 0; i < themeCount; i++) {
+        cout << setw(15) << themes[i] << " | " << setw(15) << employeeCount[i] << " | " << setw(18) << salaryFund[i]
+             << endl;
+    }
+    delete[] themes;
+    delete[] employeeCount;
+    delete[] salaryFund;
 }

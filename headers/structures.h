@@ -12,8 +12,8 @@ struct NII {
     int id;
     int department;
     string name;
-    int theme_number;
-    int work_duration;
+    int theme;
+    int experience;
     int position;
     int salary;
 };

@@ -1,4 +1,3 @@
-#include <cstdlib>
 #include <iostream>
 #include <string>
 
@@ -9,12 +8,6 @@
 #include "./headers/structures.h"
 
 using namespace std;
-
-void anyKeyToContiniue() {
-    cout << "Press any key to continiue\n";
-    char choice = getch();
-    system("clear");
-}
 
 int main() {
     char choice;
@@ -46,6 +39,7 @@ int main() {
             case '3':
                 while (true) {
                     choice = getChoice("1 - Edit element\n2 - Sort\n3 - Delete selected\n4 - Delete list\n", "1234");
+                    if (choice == ESC) break;
                     if (choice == '1') edit(&begin);
                     else if (choice == '2') {
                         while (true) {
@@ -55,9 +49,23 @@ int main() {
                             else if (choice == ESC) break;
                         }
                     } else if (choice == '3') deleteSelected(&begin);
-                    else if (choice == '4')
-                        while (begin) deleteFirst(&begin);
-                    else if (choice == ESC) break;
+                    else if (choice == '4') {
+                        while (true) {
+                            choice = getChoice("1 - Delete without saving\n2 - Save and delete\n", "12");
+                            if (choice == ESC) break;
+                            else if (choice == '1') {
+                                while (begin) deleteFirst(&begin);
+                                break;
+                            } else if (choice == '2') {
+                                choice = getChoice("1 - Save to bin file\n2 - Save to txt file\n", "12");
+                                if (choice == ESC) break;
+                                else if (choice == '1') save_roster_bin(&begin);
+                                else if (choice == '2') save_roster_txt(&begin);
+                                while (begin) deleteFirst(&begin);
+                                break;
+                            }
+                        }
+                    }
                 }
                 break;
             case '4':

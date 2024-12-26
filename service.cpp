@@ -108,5 +108,5 @@ void printRosterHeader() {
 void printRoster(NII info) {
     cout << left << setw(4) << info.id << " | " << setw(12) << info.department << " | " << setw(15) << info.name
          << " | " << setw(10) << info.position << " | " << setw(10) << info.salary << " | " << setw(15)
-         << info.theme_number << " | " << setw(18) << info.work_duration << endl;
+         << info.theme << " | " << setw(18) << info.experience << endl;
 }

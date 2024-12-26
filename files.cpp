@@ -39,7 +39,7 @@ void save_roster_txt(roster **begin) {
     cout << "Saving to txt file\nEnter name for txt file\nInput: ";
     getline(cin, fileName);
     system("clear");
-    
+
     if (fileName.size() >= 4 && fileName.substr(fileName.size() - 4) == ".txt") file.open("./files/" + fileName);
     else file.open("./files/" + fileName + ".txt");
     if (!file) {
@@ -51,8 +51,8 @@ void save_roster_txt(roster **begin) {
         file << current->info.id << "|";
         file << current->info.department << "|";
         file << current->info.name << "|";
-        file << current->info.theme_number << "|";
-        file << current->info.work_duration << "|";
+        file << current->info.theme << "|";
+        file << current->info.experience << "|";
         file << current->info.position << "|";
         file << current->info.salary << "|";
         file << endl;
@@ -133,12 +133,12 @@ void load_roster_txt(roster **begin) {
 
         pos = line.find('|');
         temp = line.substr(0, pos);
-        content.theme_number = stoi(temp);
+        content.theme = stoi(temp);
         line.erase(0, pos + 1);
 
         pos = line.find('|');
         temp = line.substr(0, pos);
-        content.work_duration = stoi(temp);
+        content.experience = stoi(temp);
         line.erase(0, pos + 1);
 
         pos = line.find('|');

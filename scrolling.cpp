@@ -73,10 +73,10 @@ void findByField(roster **begin) {
                     match = (current->info.department == searchValue);
                     break;
                 case '4':
-                    match = (current->info.theme_number == searchValue);
+                    match = (current->info.theme == searchValue);
                     break;
                 case '5':
-                    match = (current->info.work_duration == searchValue);
+                    match = (current->info.experience == searchValue);
                     break;
                 case '6':
                     match = (current->info.position == searchValue);
@@ -108,7 +108,7 @@ void analyzeThemes(roster **begin) {
     int *salaryFund = new int[rosterCount];
 
     for (roster *current = *begin; current; current = current->next) {
-        int themeNumber = current->info.theme_number;
+        int themeNumber = current->info.theme;
         int salary = current->info.salary;
 
         bool found = false;

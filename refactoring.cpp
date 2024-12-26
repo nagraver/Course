@@ -19,9 +19,9 @@ NII enterContainer() {
     system("clear");
     container.salary = intInputCheck("Salary");
     system("clear");
-    container.theme_number = intInputCheck("Theme number");
+    container.theme = intInputCheck("Theme number");
     system("clear");
-    container.work_duration = intInputCheck("Work experience");
+    container.experience = intInputCheck("Work experience");
     system("clear");
     return container;
 }
@@ -90,9 +90,9 @@ void deleteSelected(roster **begin) {
                 system("clear");
                 printRosterHeader();
                 printRoster(current->info);
-                cout << "Delete this (y/n)\n";
-                char choice = getch();
-                if (choice == 'y') {
+
+                char choice = getChoice("1 - Delete\n", "1");
+                if (choice == '1') {
                     if (current->prev) current->prev->next = current->next;
                     else *begin = current->next;
                     if (current->next) current->next->prev = current->prev;
@@ -100,7 +100,7 @@ void deleteSelected(roster **begin) {
                     system("clear");
                     cout << "Element deleted.\n";
                     break;
-                } else if (choice == 'n') {
+                } else if (choice == ESC) {
                     system("clear");
                     cout << "Canceled\n";
                     break;
@@ -142,7 +142,7 @@ void insertionSortIncrease(roster **begin) {
     *begin = sorted;
     fixId(begin);
     system("clear");
-    cout << "List been sorted\n";
+    cout << "Sorted\n";
 }
 
 void insertionSortDecrease(roster **begin) {
@@ -174,7 +174,7 @@ void insertionSortDecrease(roster **begin) {
     *begin = sorted;
     fixId(begin);
     system("clear");
-    cout << "List been sorted\n";
+    cout << "Sorted\n";
 }
 
 void edit(roster **begin) {
@@ -189,35 +189,45 @@ void edit(roster **begin) {
             system("clear");
             printRosterHeader();
             printRoster(current->info);
-            cout << "Choose column (d/n/p/s/t/w)\n";
-            char choice = getch();
+            char choice =
+                getChoice("1 - Department\n2 - Name\n3 - Theme\n4 - Experience\n5 - Position\n6 - Salary\n", "123456");
             system("clear");
-            switch (choice) {
-                case 'd':
-                    current->info.department = intInputCheck("Department");
-                    break;
-                case 'n':
-                    current->info.name = nameInputCheck("Full name");
-                    break;
-                case 'p':
-                    current->info.position = intInputCheck("Position");
-                    break;
-                case 's':
-                    current->info.salary = intInputCheck("Salary");
-                    break;
-                case 't':
-                    current->info.theme_number = intInputCheck("Theme number");
-                    break;
-                case 'w':
-                    current->info.work_duration = intInputCheck("Work experience");
-                    break;
-                default:
-                    cout << "Wrong choice\n";
-                    break;
+            while (true) {
+                switch (choice) {
+                    system("clear");
+                    case '1':
+                        current->info.department = intInputCheck("Department");
+                        cout << "Edited\n";
+                        break;
+                    case '2':
+                        current->info.name = nameInputCheck("Full name");
+                        cout << "Edited\n";
+                        break;
+                    case '3':
+                        current->info.theme = intInputCheck("Theme");
+                        cout << "Edited\n";
+                        break;
+                    case '4':
+                        current->info.experience = intInputCheck("Experience");
+                        cout << "Edited\n";
+                        break;
+                    case '5':
+                        current->info.position = intInputCheck("Position");
+                        cout << "Edited\n";
+                        break;
+                    case '6':
+                        current->info.salary = intInputCheck("Salary");
+                        cout << "Edited\n";
+                        break;
+                    case ESC:
+                        cout << "Canceled\n";
+                        break;
+                    default:
+                        cout << "Wrong choice\n";
+                        continue;
+                }
+                break;
             }
-            system("clear");
-            printRosterHeader();
-            printRoster(current->info);
             return;
         }
     }

@@ -1,14 +1,8 @@
-cmake_minimum_required(VERSION 3.28)
-project(Course)
+    cmake_minimum_required(VERSION 3.20)
+    project(MyProject)
 
-set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Course main.cpp
-        del.cpp
-        files.h
-        files.cpp
-        structures.h
-        adding.h
-        adding.cpp
-        removing.h
-        removing.cpp)
+    add_executable(main main.cpp files.cpp refactoring.cpp scrolling.cpp service.cpp)
+    
+    

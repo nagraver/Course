@@ -1,0 +1,3 @@
+/Users/nagraver/Cockroach/Course/CMakeFiles/main.dir
+/Users/nagraver/Cockroach/Course/CMakeFiles/edit_cache.dir
+/Users/nagraver/Cockroach/Course/CMakeFiles/rebuild_cache.dir

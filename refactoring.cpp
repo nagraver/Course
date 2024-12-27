@@ -33,8 +33,7 @@ void addFirst(roster **begin, NII content) {
     if (*begin != nullptr) (*begin)->prev = temp;
     *begin = temp;
     fixId(begin);
-    printRosterHeader();
-    printRoster(content);
+    cout << "Element added\n";
 }
 
 void addLast(roster **begin, NII content) {
@@ -49,17 +48,23 @@ void addLast(roster **begin, NII content) {
         temp->prev = current;
     }
     fixId(begin);
-    printRosterHeader();
-    printRoster(temp->info);
+    cout << "Element added\n";
 }
 
-void addMany(roster **begin) {
+void addMany(roster **begin, NII content) {
     char choice;
+    addLast(begin, enterContainer());
+    choice = getChoice("Organize", "1 - Continue\n", "1");
     while (true) {
-        addLast(begin, enterContainer());
-        choice = getChoice("1 - Continue\n", "1");
-        if (choice == '1') addLast(begin, enterContainer());
-        else if (choice == ESC) break;
+        if (choice == ESC) break;
+        else if (choice == '1') addLast(begin, enterContainer());
+        while (true) {
+            addLast(begin, enterContainer());
+            choice = getChoice("Organize", "1 - Continue\n", "1");
+            if (choice == '1') addLast(begin, enterContainer());
+            else if (choice == ESC) break;
+        }
+        break;
     }
 }
 
@@ -91,7 +96,7 @@ void deleteSelected(roster **begin) {
                 printRosterHeader();
                 printRoster(current->info);
 
-                char choice = getChoice("1 - Delete\n", "1");
+                char choice = getChoice("Delete selected", "1 - Delete\n", "1");
                 if (choice == '1') {
                     if (current->prev) current->prev->next = current->next;
                     else *begin = current->next;
@@ -131,7 +136,9 @@ void insertionSortIncrease(roster **begin) {
             sorted = current;
         } else {
             roster *temp = sorted;
-            while (temp->next && temp->next->info.salary < current->info.salary) { temp = temp->next; }
+            while (temp->next && temp->next->info.salary < current->info.salary) {
+                temp = temp->next;
+            }
             current->next = temp->next;
             if (temp->next) temp->next->prev = current;
             temp->next = current;
@@ -163,7 +170,9 @@ void insertionSortDecrease(roster **begin) {
             sorted = current;
         } else {
             roster *temp = sorted;
-            while (temp->next && temp->next->info.salary > current->info.salary) { temp = temp->next; }
+            while (temp->next && temp->next->info.salary > current->info.salary) {
+                temp = temp->next;
+            }
             current->next = temp->next;
             if (temp->next) temp->next->prev = current;
             temp->next = current;
@@ -189,44 +198,21 @@ void edit(roster **begin) {
             system("clear");
             printRosterHeader();
             printRoster(current->info);
-            char choice =
-                getChoice("1 - Department\n2 - Name\n3 - Theme\n4 - Experience\n5 - Position\n6 - Salary\n", "123456");
-            system("clear");
+
             while (true) {
-                switch (choice) {
-                    system("clear");
-                    case '1':
-                        current->info.department = intInputCheck("Department");
-                        cout << "Edited\n";
-                        break;
-                    case '2':
-                        current->info.name = nameInputCheck("Full name");
-                        cout << "Edited\n";
-                        break;
-                    case '3':
-                        current->info.theme = intInputCheck("Theme");
-                        cout << "Edited\n";
-                        break;
-                    case '4':
-                        current->info.experience = intInputCheck("Experience");
-                        cout << "Edited\n";
-                        break;
-                    case '5':
-                        current->info.position = intInputCheck("Position");
-                        cout << "Edited\n";
-                        break;
-                    case '6':
-                        current->info.salary = intInputCheck("Salary");
-                        cout << "Edited\n";
-                        break;
-                    case ESC:
-                        cout << "Canceled\n";
-                        break;
-                    default:
-                        cout << "Wrong choice\n";
-                        continue;
-                }
-                break;
+                string prompt = "1 - Department\n2 - Name\n3 - Theme\n4 - Experience\n5 - Position\n6 - Salary\n";
+                char choice = getChoice("Edit", prompt, "123456");
+                system("clear");
+                if (choice == ESC) break;
+                else if (choice == '1') current->info.department = intInputCheck("Department");
+                else if (choice == '2') current->info.name = nameInputCheck("Full name");
+                else if (choice == '3') current->info.theme = intInputCheck("Theme");
+                else if (choice == '4') current->info.experience = intInputCheck("Experience");
+                else if (choice == '5') current->info.position = intInputCheck("Position");
+                else if (choice == '6') current->info.salary = intInputCheck("Salary");
+                system("clear");
+                printRosterHeader();
+                printRoster(current->info);
             }
             return;
         }

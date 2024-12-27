@@ -1,5 +1,5 @@
-CMakeFiles/main.dir/scrolling.cpp.o: \
-  /Users/nagraver/Cockroach/Course/scrolling.cpp \
+CMakeFiles/main.exe.dir/files.cpp.o: \
+  /Users/nagraver/Cockroach/Course/files.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstdlib \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__assert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__assertion_handler \
@@ -976,5 +976,6 @@ CMakeFiles/main.dir/scrolling.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/iostream \
-  /Users/nagraver/Cockroach/Course/./headers/service.h \
-  /Users/nagraver/Cockroach/Course/./headers/structures.h
+  /Users/nagraver/Cockroach/Course/./headers/refactoring.h \
+  /Users/nagraver/Cockroach/Course/./headers/structures.h \
+  /Users/nagraver/Cockroach/Course/./headers/service.h

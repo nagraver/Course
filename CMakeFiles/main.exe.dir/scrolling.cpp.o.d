@@ -1,4 +1,4 @@
-CMakeFiles/main.dir/scrolling.cpp.o: \
+CMakeFiles/main.exe.dir/scrolling.cpp.o: \
   /Users/nagraver/Cockroach/Course/scrolling.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/cstdlib \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk/usr/include/c++/v1/__assert \

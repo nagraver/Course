@@ -9,7 +9,7 @@ void addFirst(roster **begin, NII content);
 
 void addLast(roster **begin, NII content);
 
-void addMany(roster **begin);
+void addMany(roster **begin, NII content);
 
 void deleteFirst(roster **begin);
 

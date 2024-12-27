@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -31,7 +32,7 @@ void scrolling(roster **begin) {
         }
 
         cout << "Page " << page + 1 << " of " << (total_items + ITEMS_PER_PAGE - 1) / ITEMS_PER_PAGE << endl;
-        char choice = getChoice("1 - Previous\n2 - Next\n", "12");
+        char choice = getChoice("Scrolling", "1 - Previous\n2 - Next\n", "12");
 
         if (choice == '1') {
             if (page > 0) page--;
@@ -48,12 +49,12 @@ void findByField(roster **begin) {
     }
     string prompt =
         "Search by:\n1 - ID\n2 - Department\n3 - name\n4 - Theme\n5 - Experience\n6 - Position\n7 - Salary\n";
-    char choice = getChoice(prompt, "1234567");
+    char choice = getChoice("Find", prompt, "1234567");
     if (choice == ESC) return;
     system("clear");
     if (choice == '3') {
         string searchValue = nameInputCheck("Enter value");
-        
+
         for (roster *current = *begin; current; current = current->next) {
             if (current->info.name == searchValue) {
                 printRosterHeader();
@@ -62,7 +63,7 @@ void findByField(roster **begin) {
         }
     } else {
         int searchValue = intInputCheck("Enter value");
-        
+
         for (roster *current = *begin; current; current = current->next) {
             bool match = false;
             switch (choice) {
@@ -93,13 +94,13 @@ void findByField(roster **begin) {
         }
     }
 }
-
 void analyzeThemes(roster **begin) {
     if (*begin == nullptr) {
         cout << "List is empty.\n";
         return;
     }
-    int rosterCount;
+
+    int rosterCount = 0;
     for (roster *current = *begin; current; current = current->next) rosterCount++;
 
     int themeCount = 0;
@@ -128,7 +129,6 @@ void analyzeThemes(roster **begin) {
             themeCount++;
         }
     }
-
     cout << center("Theme Number", 15) << " | " << center("Employee Count", 15) << " | " << center("Salary Fund", 18)
          << endl;
 
@@ -138,7 +138,83 @@ void analyzeThemes(roster **begin) {
         cout << setw(15) << themes[i] << " | " << setw(15) << employeeCount[i] << " | " << setw(18) << salaryFund[i]
              << endl;
     }
+
+    char choice = getChoice("Analyze", "1 - Save\n", "1");
+    while (true) {
+        if (choice == ESC) break;
+        else if (choice == '1') {
+            ofstream outFile("analysis_results.txt");
+            if (!outFile.is_open()) {
+                cerr << "Failed to open file for writing.\n";
+                delete[] themes;
+                delete[] employeeCount;
+                delete[] salaryFund;
+                return;
+            }
+            outFile << center("Theme Number", 15) << " | " << center("Employee Count", 15) << " | "
+                    << center("Salary Fund", 18) << endl;
+
+            outFile << string(15, '-') << "-+-" << string(15, '-') << "-+-" << string(18, '-') << endl;
+
+            // Write data
+            for (int i = 0; i < themeCount; i++) {
+                outFile << setw(15) << themes[i] << " | " << setw(15) << employeeCount[i] << " | " << setw(18)
+                        << salaryFund[i] << endl;
+            }
+            outFile.close();
+            cout << "Saved to analysis_results.txt\n";
+        }
+        break;
+    }
     delete[] themes;
     delete[] employeeCount;
     delete[] salaryFund;
 }
+// void analyzeThemes(roster **begin) {
+//     if (*begin == nullptr) {
+//         cout << "List is empty.\n";
+//         return;
+//     }
+//     int rosterCount;
+//     for (roster *current = *begin; current; current = current->next) rosterCount++;
+
+//     int themeCount = 0;
+//     int *themes = new int[rosterCount];
+//     int *employeeCount = new int[rosterCount];
+//     int *salaryFund = new int[rosterCount];
+
+//     for (roster *current = *begin; current; current = current->next) {
+//         int themeNumber = current->info.theme;
+//         int salary = current->info.salary;
+
+//         bool found = false;
+//         for (int i = 0; i < themeCount; i++) {
+//             if (themes[i] == themeNumber) {
+//                 employeeCount[i]++;
+//                 salaryFund[i] += salary;
+//                 found = true;
+//                 break;
+//             }
+//         }
+
+//         if (!found) {
+//             themes[themeCount] = themeNumber;
+//             employeeCount[themeCount] = 1;
+//             salaryFund[themeCount] = salary;
+//             themeCount++;
+//         }
+//     }
+
+//     cout << center("Theme Number", 15) << " | " << center("Employee Count", 15) << " | " << center("Salary Fund", 18)
+//          << endl;
+
+//     cout << string(15, '-') << "-+-" << string(15, '-') << "-+-" << string(18, '-') << endl;
+
+//     for (int i = 0; i < themeCount; i++) {
+//         cout << setw(15) << themes[i] << " | " << setw(15) << employeeCount[i] << " | " << setw(18) << salaryFund[i]
+//              << endl;
+//     }
+//     delete[] themes;
+//     delete[] employeeCount;
+//     delete[] salaryFund;
+// }

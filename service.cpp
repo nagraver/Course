@@ -1,9 +1,11 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "./headers/structures.h"
@@ -51,23 +53,41 @@ int intInputCheck(string text) {
 char getch() {
     char buf = 0;
     struct termios old = {0};
-    if (tcgetattr(0, &old) < 0) { perror("tcsetattr()"); }
+    if (tcgetattr(0, &old) < 0) {
+        perror("tcsetattr()");
+    }
     old.c_lflag &= ~ICANON;  // Отключить канонический режим
     old.c_lflag &= ~ECHO;    // Отключить эхо
     old.c_cc[VMIN] = 1;
     old.c_cc[VTIME] = 0;
-    if (tcsetattr(0, TCSANOW, &old) < 0) { perror("tcsetattr ICANON"); }
-    if (read(0, &buf, 1) < 0) { perror("read()"); }
+    if (tcsetattr(0, TCSANOW, &old) < 0) {
+        perror("tcsetattr ICANON");
+    }
+    if (read(0, &buf, 1) < 0) {
+        perror("read()");
+    }
     old.c_lflag |= ICANON;  // Включить канонический режим обратно
     old.c_lflag |= ECHO;    // Включить эхо обратно
-    if (tcsetattr(0, TCSADRAIN, &old) < 0) { perror("tcsetattr ~ICANON"); }
+    if (tcsetattr(0, TCSADRAIN, &old) < 0) {
+        perror("tcsetattr ~ICANON");
+    }
     return buf;
 }
 
-char getChoice(string prompt, string validChoices) {
+char getChoice(string name, string prompt, string validChoices) {
     char choice;
     while (true) {
-        cout << prompt << "ESC - Back\n";
+        int nameLen = name.length();
+        istringstream stream(prompt);
+        string line;
+        size_t maxLength = 0;
+
+        while (getline(stream, line)) maxLength = max(maxLength, line.length());
+        maxLength = std::max(maxLength, name.length() + 6);
+        string divider(maxLength, '-');
+
+        cout << endl << name << endl << divider << endl << prompt << divider << endl << "Back - Esc" << endl;
+
         choice = getch();
         system("clear");
         if (choice == ESC) return choice;
@@ -107,6 +127,6 @@ void printRosterHeader() {
 
 void printRoster(NII info) {
     cout << left << setw(4) << info.id << " | " << setw(12) << info.department << " | " << setw(15) << info.name
-         << " | " << setw(10) << info.position << " | " << setw(10) << info.salary << " | " << setw(15)
-         << info.theme << " | " << setw(18) << info.experience << endl;
+         << " | " << setw(10) << info.position << " | " << setw(10) << info.salary << " | " << setw(15) << info.theme
+         << " | " << setw(18) << info.experience << endl;
 }

@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named main.exe
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+main.exe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main.exe
+.PHONY : main.exe
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+main.exe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/build
+.PHONY : main.exe/fast
 
 files.o: files.cpp.o
 .PHONY : files.o
 
 # target to build an object file
 files.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/files.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/files.cpp.o
 .PHONY : files.cpp.o
 
 files.i: files.cpp.i
@@ -142,7 +142,7 @@ files.i: files.cpp.i
 
 # target to preprocess a source file
 files.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/files.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/files.cpp.i
 .PHONY : files.cpp.i
 
 files.s: files.cpp.s
@@ -150,7 +150,7 @@ files.s: files.cpp.s
 
 # target to generate assembly for a file
 files.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/files.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/files.cpp.s
 .PHONY : files.cpp.s
 
 main.o: main.cpp.o
@@ -158,7 +158,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -166,7 +166,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -174,7 +174,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 refactoring.o: refactoring.cpp.o
@@ -182,7 +182,7 @@ refactoring.o: refactoring.cpp.o
 
 # target to build an object file
 refactoring.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/refactoring.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/refactoring.cpp.o
 .PHONY : refactoring.cpp.o
 
 refactoring.i: refactoring.cpp.i
@@ -190,7 +190,7 @@ refactoring.i: refactoring.cpp.i
 
 # target to preprocess a source file
 refactoring.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/refactoring.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/refactoring.cpp.i
 .PHONY : refactoring.cpp.i
 
 refactoring.s: refactoring.cpp.s
@@ -198,7 +198,7 @@ refactoring.s: refactoring.cpp.s
 
 # target to generate assembly for a file
 refactoring.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/refactoring.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/refactoring.cpp.s
 .PHONY : refactoring.cpp.s
 
 scrolling.o: scrolling.cpp.o
@@ -206,7 +206,7 @@ scrolling.o: scrolling.cpp.o
 
 # target to build an object file
 scrolling.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/scrolling.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/scrolling.cpp.o
 .PHONY : scrolling.cpp.o
 
 scrolling.i: scrolling.cpp.i
@@ -214,7 +214,7 @@ scrolling.i: scrolling.cpp.i
 
 # target to preprocess a source file
 scrolling.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/scrolling.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/scrolling.cpp.i
 .PHONY : scrolling.cpp.i
 
 scrolling.s: scrolling.cpp.s
@@ -222,7 +222,7 @@ scrolling.s: scrolling.cpp.s
 
 # target to generate assembly for a file
 scrolling.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/scrolling.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/scrolling.cpp.s
 .PHONY : scrolling.cpp.s
 
 service.o: service.cpp.o
@@ -230,7 +230,7 @@ service.o: service.cpp.o
 
 # target to build an object file
 service.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/service.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/service.cpp.o
 .PHONY : service.cpp.o
 
 service.i: service.cpp.i
@@ -238,7 +238,7 @@ service.i: service.cpp.i
 
 # target to preprocess a source file
 service.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/service.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/service.cpp.i
 .PHONY : service.cpp.i
 
 service.s: service.cpp.s
@@ -246,7 +246,7 @@ service.s: service.cpp.s
 
 # target to generate assembly for a file
 service.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/service.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.exe.dir/build.make CMakeFiles/main.exe.dir/service.cpp.s
 .PHONY : service.cpp.s
 
 # Help Target
@@ -257,7 +257,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
+	@echo "... main.exe"
 	@echo "... files.o"
 	@echo "... files.i"
 	@echo "... files.s"

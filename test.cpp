@@ -2,15 +2,10 @@
 
 using namespace std;
 
-void func(int *value) { *value += 1; }
 
 int main() {
-    int z ,v;
-    cout << "Department: ";
-    cin >> z;
-    // cin >> v;
-    string zov;
-    cout << "Full Name: ";
-    getline(cin, zov);
-    cout << zov << " " << z;
+    string a = "12a345a";
+    cout << a.find('a');
+    cout << a.find('a');
+    return 0;
 }

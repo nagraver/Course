@@ -77,7 +77,7 @@ void load_roster_bin(roster **begin) {
         return;
     }
 
-    choice = getChoice("1 - Override data\n2 - Add data\n", "12");
+    choice = getChoice("Loading bin file", "1 - Override data\n2 - Add data\n", "12");
     if (choice == '1')
         while (*begin) deleteFirst(begin);
     else if (choice == ESC) return;
@@ -106,7 +106,7 @@ void load_roster_txt(roster **begin) {
         return;
     }
 
-    choice = getChoice("1 - Override data\n2 - Add data\n", "12");
+    choice = getChoice("Loading txt file", "1 - Override data\n2 - Add data\n", "12");
     if (choice == '1')
         while (*begin) deleteFirst(begin);
     else if (choice == ESC) return;

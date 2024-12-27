@@ -9,7 +9,7 @@ string nameInputCheck(string text);
 
 int intInputCheck(string text);
 
-char getChoice(string prompt, string validChoices);
+char getChoice(string name, string prompt, string validChoices);
 
 void fixId(roster **begin);
 
